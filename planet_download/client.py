@@ -138,7 +138,7 @@ class BasemapsClient(object):
         self.session = requests.Session()
         self.session.auth = (api_key, "")
 
-        retries = Retry(total=5, backoff_factor=0.2, status_forcelist=[429])
+        retries = Retry(total=10, backoff_factor=0.5, status_forcelist=[429, 502])
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
 
     def _url(self, endpoint):
@@ -341,9 +341,12 @@ class BasemapsClient(object):
                 pass
             filename = os.path.join(output_dir, filename)
 
-        # Download in chunks.
-        with open(filename, "wb") as outfile:
-            shutil.copyfileobj(response.raw, outfile)
+        # Download in chunks if the file does not exists
+        if not os.path.exists(filename):
+            with open(filename, "wb") as outfile:
+                shutil.copyfileobj(response.raw, outfile)
+        
+        # remove from memory
         del response
 
         return filename
