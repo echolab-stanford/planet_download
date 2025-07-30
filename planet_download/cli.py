@@ -2,6 +2,7 @@
 
 import click
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 # Load environment variables at module level
 load_dotenv()
@@ -54,8 +55,8 @@ def download_all(geojson, start_date, end_date, cadence):
 
     # Trigger the downloads
     click.echo("Starting downloads...")
-    for d in downloads:
-        click.echo(f"Downloaded: {d}")
+    for d in tqdm(downloads, desc="Downloading files", total=len(downloads)):
+        pass
 
 
 def main():
