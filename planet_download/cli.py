@@ -13,19 +13,49 @@ def cli():
     pass
 
 
-# --- Simple Basemap List Command ---
+# --- Download All Images Command ---
 @cli.command(
-    help="List available Planet basemaps. Example:\n  planet-download list-mosaics"
+    help="Download all images for a GeoJSON AOI from a Planet basemap series. Example:\n  planet-download download-all --geojson kenya.geojson --start-date 2020-01-01 --end-date 2020-12-31 --cadence 'Global Quarterly'"
 )
-def list_mosaics():
-    """List available Planet basemaps using BasemapsClient from client.py."""
+@click.option(
+    "--geojson",
+    required=True,
+    type=click.Path(exists=True),
+    help="Path to GeoJSON file defining the AOI.",
+)
+@click.option("--start-date", required=True, type=str, help="Start date (YYYY-MM-DD)")
+@click.option("--end-date", required=True, type=str, help="End date (YYYY-MM-DD)")
+@click.option(
+    "--cadence",
+    default="Global Quarterly",
+    show_default=True,
+    help="Basemap series cadence (e.g. 'Global Quarterly')",
+)
+def download_all(geojson, start_date, end_date, cadence):
+    """Download all images for a GeoJSON AOI using BasemapsClient and MosaicSeries."""
+    import geopandas as gpd
+
     from planet_download.client import BasemapsClient
 
+    # Start the client (dotenv is loaded at module level)
     client = BasemapsClient()
-    mosaics = list(client.list_mosaics())
-    click.echo("Available mosaics:")
-    for m in mosaics:
-        click.echo(f"  - {m.name}")
+
+    # Load the geojson and get bounds
+    gdf = gpd.read_file(geojson)
+    gdf_bounds = gdf.total_bounds
+
+    # Get the series
+    series = client.series(name=cadence)
+
+    # Download all images in the AOI and date range
+    downloads = series.download_quads(
+        bbox=gdf_bounds, start_date=start_date, end_date=end_date
+    )
+
+    # Trigger the downloads
+    click.echo("Starting downloads...")
+    for d in downloads:
+        click.echo(f"Downloaded: {d}")
 
 
 def main():
