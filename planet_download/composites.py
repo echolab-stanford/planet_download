@@ -6,6 +6,7 @@ import numpy as np
 import rasterio
 from rasterio.enums import Resampling
 from rasterio.io import MemoryFile
+from rasterio.merge import merge
 from rio_cogeo.cogeo import cog_translate
 from rio_cogeo.profiles import cog_profiles
 from tqdm import tqdm
@@ -274,19 +275,92 @@ def resample_resolution_parallel(
     Returns:
     --------
         None
-
     """
-    with concurrent.futures.ProcessPoolExecutor(max_workers=nthreads) as executor:
-        futures = []
-        for input_raster in path_rasters:
-            output_raster = path_save_rasters / input_raster.name
-            futures.append(
-                executor.submit(
-                    resample_resolution, input_raster, output_raster, target_resolution
+
+    # Create saving folder if doesn't exist
+    Path(path_save_rasters).mkdir(parents=True, exist_ok=True)
+
+    with tqdm(
+        total=len(path_rasters), desc=f"Taking to {target_resolution} meters"
+    ) as pbar:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=nthreads) as executor:
+            futures = []
+            for input_raster in path_rasters:
+                # Keep the same structure including composites by year. We expect a
+                # <path>/year/<composite_name>.tif
+                output_folder = Path(path_save_rasters) / input_raster.parts[-2]
+                output_folder.mkdir(parents=True, exist_ok=True)
+                output_raster = output_folder / input_raster.name
+                futures.append(
+                    executor.submit(
+                        resample_resolution,
+                        input_raster,
+                        output_raster,
+                        target_resolution,
+                    )
                 )
-            )
 
-        for future in concurrent.futures.as_completed(futures):
-            future.result()
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
+                pbar.update(1)
 
+    return None
+
+
+def merge_composites_by_date(
+    path_to_composites: str | Path, save_path: str | Path, year: None | int = None
+) -> None:
+    """Merge overlapping yearly/monthly composites
+
+    Parameters
+    ----------
+    path_to_composites : str | Path
+        Path to the directory containing the composite TIFF files.
+    save_path : str | Path
+        Path to the directory where the merged TIFF file will be saved.
+    year : None | int
+        Year to filter the composites (if None, all years will be processed).
+
+    Returns
+    -------
+        None
+    """
+
+    if isinstance(path_to_composites, str):
+        path_to_composites = Path(path_to_composites)
+
+    comp_time_folder = [d for d in path_to_composites.iterdir()]
+
+    for time_dir in tqdm(comp_time_folder, desc="Processing months..."):
+        print(time_dir)
+        paths_month = list(time_dir.glob("*.tif"))
+        tiff_files_open = [rasterio.open(p) for p in paths_month]
+
+        # Merge the TIFF files
+        mosaic, out_trans = merge(tiff_files_open)
+
+        # Write the mosaic to a new TIFF file
+
+        # Create folder if it doesn't exist
+        output_dir = Path(save_path)
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        output_file = output_dir / f"planet_composite_mosaic_{time_dir.name}.tif"
+
+        # Use first element meta
+        out_meta = tiff_files_open[0].meta.copy()
+
+        out_meta.update(
+            {
+                "driver": "GTiff",
+                "height": mosaic.shape[1],
+                "width": mosaic.shape[2],
+                "dtype": mosaic.dtype,
+                "crs": tiff_files_open[0].crs,
+                "transform": out_trans,
+            }
+        )
+
+        with rasterio.open(output_file, "w", **out_meta) as dst:
+            dst.write(mosaic)
     return None
