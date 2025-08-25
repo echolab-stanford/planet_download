@@ -1,9 +1,10 @@
-import warnings
 import concurrent.futures
+import warnings
 from pathlib import Path
 
 import numpy as np
 import rasterio
+from rasterio.enums import Resampling
 from rasterio.io import MemoryFile
 from rio_cogeo.cogeo import cog_translate
 from rio_cogeo.profiles import cog_profiles
@@ -134,7 +135,10 @@ def create_composite(
 
 
 def process_composites_parallel(
-    dict_paths: dict[int, dict[str, list[Path]]], save_dir: str, operation="mean", nthreads: int = 4
+    dict_paths: dict[int, dict[str, list[Path]]],
+    save_dir: str,
+    operation="mean",
+    nthreads: int = 4,
 ) -> None:
     """
     Process composites in parallel for each quad in the dictionary.
@@ -155,7 +159,7 @@ def process_composites_parallel(
 
     # Create save directory if it doesn't exist
     save_dir = Path(save_dir)
-    save_dir.mkdir(parents=True, exist_ok=True) 
+    save_dir.mkdir(parents=True, exist_ok=True)
 
     for year, quads in dict_paths.items():
         # Add a year folder to the save dir
@@ -168,8 +172,9 @@ def process_composites_parallel(
 
         tasks = [(quad_name, quad_paths) for quad_name, quad_paths in quads.items()]
 
-        with tqdm(total=len(tasks), desc=f"Processing quads {year} -> composites") as pbar:
-
+        with tqdm(
+            total=len(tasks), desc=f"Processing quads {year} -> composites"
+        ) as pbar:
             # Use ThreadPoolExecutor for parallel processing
             with concurrent.futures.ThreadPoolExecutor(nthreads) as executor:
                 futures = [
@@ -185,3 +190,103 @@ def process_composites_parallel(
     return None
 
 
+def resample_resolution(
+    input_path: Path, output_path: Path, target_resolution: float
+) -> None:
+    """
+    Resample a raster to a new resolution.
+
+    Parameters
+    ----------
+    input_path : Path
+        Path to the input raster file.
+    output_path : Path
+        Path to the output raster file.
+    target_resolution : float
+        Target resolution in the same units as the input raster.
+
+    Returns
+    -------
+    None
+    """
+
+    # Let's assume equal resolution (square!)
+    xres, yres = (
+        target_resolution,
+        target_resolution,
+    )
+
+    with rasterio.open(input_path, "r") as dataset:
+        scale_factor_x = dataset.res[0] / xres
+        scale_factor_y = dataset.res[1] / yres
+
+        profile = dataset.profile.copy()
+        # resample data to target shape
+        data = dataset.read(
+            out_shape=(
+                dataset.count,
+                int(dataset.height * scale_factor_y),
+                int(dataset.width * scale_factor_x),
+            ),
+            resampling=Resampling.bilinear,
+        )
+
+        # scale image transform
+        transform = dataset.transform * dataset.transform.scale(
+            (1 / scale_factor_x), (1 / scale_factor_y)
+        )
+        profile.update(
+            {
+                "height": data.shape[-2],
+                "width": data.shape[-1],
+                "transform": transform,
+            }
+        )
+
+    with rasterio.open(output_path, "w", **profile) as dataset:
+        dataset.write(data)
+
+    return None
+
+
+def resample_resolution_parallel(
+    path_rasters: str | Path,
+    path_save_rasters: str | Path,
+    target_resolution: float,
+    nthreads: int,
+) -> None:
+    """Process the resample resolution function in parallel
+
+    Execute the resample_resolution function for each raster in parallel using
+    a list of GeoTIFFs and saving them using the same name in another folder.
+
+    Parameters:
+    -----------
+    path_rasters : list[Path]
+        List of input raster file paths.
+    path_save_rasters : Path
+        Directory to save the output raster files.
+    target_resolution : float
+        Target resolution for the output rasters.
+    nthreads : int
+        Number of threads to use for parallel processing.
+
+    Returns:
+    --------
+        None
+
+    """
+    with concurrent.futures.ProcessPoolExecutor(max_workers=nthreads) as executor:
+        futures = []
+        for input_raster in path_rasters:
+            output_raster = path_save_rasters / input_raster.name
+            futures.append(
+                executor.submit(
+                    resample_resolution, input_raster, output_raster, target_resolution
+                )
+            )
+
+        for future in concurrent.futures.as_completed(futures):
+            future.result()
+
+    return None
