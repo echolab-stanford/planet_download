@@ -322,6 +322,12 @@ class BasemapsClient(object):
         str
             The path to the downloaded file.
         """
+        # Build full path early to skip the HTTP request if file already exists
+        if filename is not None and output_dir is not None:
+            filepath = os.path.join(output_dir, filename)
+            if os.path.exists(filepath):
+                return filepath
+
         response = self.session.get(url, stream=True)
         response.raise_for_status()
 
@@ -341,11 +347,10 @@ class BasemapsClient(object):
                 pass
             filename = os.path.join(output_dir, filename)
 
-        # Download in chunks if the file does not exists
         if not os.path.exists(filename):
             with open(filename, "wb") as outfile:
                 shutil.copyfileobj(response.raw, outfile)
-        
+
         # remove from memory
         del response
 
