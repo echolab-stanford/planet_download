@@ -1,0 +1,3797 @@
+{
+  "total_tifs": 58379,
+  "readable": 58374,
+  "failed_count": 5,
+  "distinct_profiles": [
+    {
+      "width": 4096,
+      "height": 4096,
+      "bands": 4,
+      "dtype": "uint8",
+      "crs": "EPSG:3857",
+      "n": 51246
+    },
+    {
+      "width": 2048,
+      "height": 2048,
+      "bands": 4,
+      "dtype": "uint8",
+      "crs": "EPSG:3857",
+      "n": 7128
+    }
+  ],
+  "band_counts": {
+    "4": 58374
+  },
+  "outliers_vs_modal": [
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1998_2160.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2427_1917.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2057_2193.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2473_2009.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2445_1946.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2194.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2454_2010.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2119.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2132.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2478_1968.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2434_1887.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2044_2209.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2072_2143.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2074_2119.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2010_2191.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2390_1980.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2035_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2050_2174.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2467_1959.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2139.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2464_1950.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2088_2177.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2416_1987.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2491_1970.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2047_2213.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2086_2175.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2438_1883.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2448_1874.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2491_1991.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2168.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2494_1978.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2488_1932.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2052_2163.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2151.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2401_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2429_1992.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2164.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2008_2190.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2491_1971.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2438_1915.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2432_1888.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2423_1889.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2405_1967.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2010_2176.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1998_2161.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2501_1986.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2428_1998.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2061_2151.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2430_2021.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2475_1971.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2040_2193.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2044_2214.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2083_2178.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2070_2142.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2001_2195.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2058_2170.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2421_2004.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2386_1991.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2074_2122.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2061_2129.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2016_2195.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2492_1989.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2492_1928.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2491_1972.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2447_1950.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2396_2018.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2024_2179.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2166.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2065_2120.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2444_1859.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2078_2121.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2423_1996.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2430_1934.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1998_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2063_2122.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2026_2187.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2404_1966.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2395_2003.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2161.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2135.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2023_2206.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2422_1943.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2434_1886.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2410_2008.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2446_1993.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2411_2009.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2065_2147.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2478_1969.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2464_1955.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2077_2125.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2065_2184.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2150.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2054_2168.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2152.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2487_1925.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2036_2197.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2069_2123.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2402_1981.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2402_1982.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2414_2011.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2084_2182.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2451_1998.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2436_2020.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2403_2015.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2062_2140.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2418_2018.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2022_2191.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2016_2187.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2483_1996.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_1889.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2069_2145.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2418_2017.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2173.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2443_1947.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2424_1996.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2020_2190.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2040_2175.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2472_2010.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2492_1924.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2047_2170.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2427_1914.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2069_2160.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2039_2186.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2433_2008.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2120.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2427_1937.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2069_2165.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2083_2159.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2441_1945.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2412_1971.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2445_1923.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2044_2186.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2002_2168.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2130.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2020_2198.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2152.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2084_2162.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2068_2150.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_1934.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1969.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2019_2189.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2495_1978.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2443_1996.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2047_2204.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2477_1970.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2434_2003.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2437_1914.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2169.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2443_1938.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2008_2179.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2166.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2026_2205.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2002_2184.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2451_1865.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2038_2189.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2447_1883.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2447_1946.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2417_2009.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2065_2130.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2389_1998.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2001_2167.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2171.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2396_2019.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2081_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2193.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2145.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2496_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2445_1864.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2122.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2161.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2008_2168.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_1880.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2405_1962.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2414_1949.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2124.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2154.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2486_1975.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2489_1928.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2124.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2500_1926.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2167.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2086_2184.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2014_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2440_2031.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2506_1930.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2070_2157.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2034_2182.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2417_1987.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2452_1964.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2426_1914.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2460_1960.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2027_2191.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2078_2132.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2073_2121.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2162.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2496_1978.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2159.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_1998.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2399_2028.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2436_2035.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2078_2155.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2050_2169.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2123.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2426_1936.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2058_2156.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2137.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2125.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2045_2202.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2492_1927.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2444_1863.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2058_2157.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2038_2187.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2030_2197.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1989.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2163.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2072_2123.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1927.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2495_1982.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2028_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2429_1889.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2058_2129.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2448_1921.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2458_1920.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2024_2192.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2118.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2446_1890.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2077_2178.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1928.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2490_1931.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2122.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2073_2135.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1998_2165.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2072_2141.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2154.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2000_2187.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2041_2201.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2415_1992.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2428_2014.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2440_1996.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2053_2163.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2089_2176.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2174.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2390_1979.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2081_2158.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2401_1973.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2443_1922.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2433_2017.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2054_2198.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2426_1888.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2490_1985.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2436_1911.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2048_2195.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2007_2165.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2040_2183.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2088_2170.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2133.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2399_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2055_2187.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2008_2191.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2417_2001.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2425_2017.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2428_2010.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2410_2015.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2072_2119.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2408_2017.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2068_2123.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2028_2200.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2088_2173.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2033_2186.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_2013.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2025_2174.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1958.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2428_1917.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2416_2005.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2087_2177.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2044_2198.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2450_1870.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2398_2014.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2061_2157.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2034_2197.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2486_1932.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2432_2020.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2401_2031.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2075_2120.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2051_2176.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2169.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2073_2124.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2431_1918.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2452_2024.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2008_2172.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2142.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2454_1999.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2085_2170.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2441_1946.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2078_2180.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2057_2134.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2463_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2009_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2433_1936.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2427_1946.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2388_1993.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2413_1948.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2165.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2433_1883.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2393_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2070_2126.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2429_1898.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2039_2178.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2495_1979.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2146.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2423_2019.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2028_2187.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2432_1921.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2436_1882.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2156.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_1876.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2431_2013.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2485_1989.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2433_1933.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2417_2019.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2057_2167.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2080_2156.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_1905.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2418_2006.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2434_2020.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2439_1892.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2134.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2396_2007.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2057_2172.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2030_2193.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2450_1869.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2501_1988.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2430_1917.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2038_2205.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2437_1901.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2077_2179.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2422_2021.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2452_1866.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_1886.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2439_2014.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2431_2024.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2004_2190.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2119.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2441_2032.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2047_2186.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2058_2128.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2496_1925.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2026_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2164.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2429_1912.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2437_1924.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2488_1987.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2067_2160.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2475_2013.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2002_2183.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2033_2203.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2124.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2073_2133.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2418_1946.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2472_1991.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2065_2158.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_2020.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2469_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2068_2160.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2036_2198.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2450_1924.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2417_2014.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2061_2154.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2060_2141.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2448_1925.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2447_1949.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2072_2155.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2082_2166.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2407_2026.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1970.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2025_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2465_1971.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2080_2168.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2431_2009.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2126.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2034_2202.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2143.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2068_2144.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2498_1987.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2431_1889.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_2028.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2170.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2027_2201.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2072_2144.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2050_2175.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2491_1967.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_1941.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2402_1974.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2123.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2464_1976.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_2027.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2447_1866.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2429_1888.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2039_2205.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2069_2164.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2445_1891.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2157.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2493_1971.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2004_2163.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2446_1879.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2446_1981.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2492_1931.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2064_2152.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2077_2146.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2028_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2501_1923.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2079_2127.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2476_1971.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_1885.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2001_2186.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2455_2000.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2074_2148.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2476_1970.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2436_1885.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2494_1969.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2121.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2078_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2495_1931.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2045_2191.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2043_2189.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1992_2171.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2050_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2033_2191.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2007_2173.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2486_1974.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2049_2181.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2453_1862.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2427_1903.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2468_1961.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1986_2169.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2047_2169.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2495_1930.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2164.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2017_2157.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2023_2192.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2447_1918.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2405_2010.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1994_2180.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2468_1958.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2433_2025.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2020_2179.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2058_2126.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2137.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2497_1924.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2059_2162.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1999_2197.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2432_1890.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2006_2177.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2083_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2065_2124.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2437_2032.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2066_2185.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2445_1878.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2412_1970.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2488_1929.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2031_2192.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2480_1998.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1995_2176.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2056_2129.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2078_2166.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2064_2151.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2466_2009.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2411_2008.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2009_2163.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1992_2163.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2483_1972.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2413_1949.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2466_1918.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2064_2165.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2035_2175.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2431_2021.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2428_1912.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2457_1947.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2429_2012.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2458_1977.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/1992_2167.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2422_2010.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2438_1889.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2071_2158.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2427_1936.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2505_1926.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2452_1993.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2076_2120.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2442_1920.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2055_2188.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2495_1927.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2437_2004.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2435_2012.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2456_1959.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2434_1914.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2009_2169.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2444_1939.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2017q1_mosaic/2085_2184.tif",
+      "width": 2048,
+      "height": 2048,
+      "count": 4,
+      "dtype": "uint8"
+    }
+  ],
+  "outlier_total": 7128,
+  "failed": [
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1222_883.tif",
+      "error": "'/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1222_883.tif' not recognized as being in a supported file format."
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1209_883.tif",
+      "error": "'/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1209_883.tif' not recognized as being in a supported file format."
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1211_883.tif",
+      "error": "'/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1211_883.tif' not recognized as being in a supported file format."
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1208_883.tif",
+      "error": "'/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1208_883.tif' not recognized as being in a supported file format."
+    },
+    {
+      "path": "/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1212_883.tif",
+      "error": "'/mnt/sherlock/oak/embed_develop/data/raw/planet/planet_dhs_sa_africa/global_quarterly_2022q3_mosaic/1212_883.tif' not recognized as being in a supported file format."
+    }
+  ],
+  "by_mosaic_profile": {
+    "global_quarterly_2017q1_mosaic": [
+      {
+        "wh_bands": [
+          2048,
+          2048,
+          4
+        ],
+        "n": 3564
+      }
+    ],
+    "global_quarterly_2017q2_mosaic": [
+      {
+        "wh_bands": [
+          2048,
+          2048,
+          4
+        ],
+        "n": 3564
+      }
+    ],
+    "global_quarterly_2017q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1579
+      }
+    ],
+    "global_quarterly_2018q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 3553
+      }
+    ],
+    "global_quarterly_2018q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 3553
+      }
+    ],
+    "global_quarterly_2018q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 3553
+      }
+    ],
+    "global_quarterly_2019q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1553
+      }
+    ],
+    "global_quarterly_2019q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1551
+      }
+    ],
+    "global_quarterly_2019q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1553
+      }
+    ],
+    "global_quarterly_2020q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1113
+      }
+    ],
+    "global_quarterly_2020q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1113
+      }
+    ],
+    "global_quarterly_2020q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 1113
+      }
+    ],
+    "global_quarterly_2021q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2739
+      }
+    ],
+    "global_quarterly_2021q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2739
+      }
+    ],
+    "global_quarterly_2021q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2739
+      }
+    ],
+    "global_quarterly_2022q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 3429
+      }
+    ],
+    "global_quarterly_2022q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 3429
+      }
+    ],
+    "global_quarterly_2022q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 3424
+      }
+    ],
+    "global_quarterly_2023q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2146
+      }
+    ],
+    "global_quarterly_2023q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2146
+      }
+    ],
+    "global_quarterly_2023q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2146
+      }
+    ],
+    "global_quarterly_2024q1_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2025
+      }
+    ],
+    "global_quarterly_2024q2_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2025
+      }
+    ],
+    "global_quarterly_2024q3_mosaic": [
+      {
+        "wh_bands": [
+          4096,
+          4096,
+          4
+        ],
+        "n": 2025
+      }
+    ]
+  },
+  "size_counts": {
+    "4096x4096": 51246,
+    "2048x2048": 7128
+  }
+}
