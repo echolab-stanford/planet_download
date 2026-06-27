@@ -17,11 +17,15 @@ from requests.adapters import HTTPAdapter
 from shapely.geometry import box
 from urllib3.util.retry import Retry
 
-# Add python-dotenv support
+# Add python-dotenv support.
+# Use find_dotenv(usecwd=True) so the .env is located relative to the current
+# working directory. A bare load_dotenv() resolves the .env relative to *this
+# file's* location, which silently fails to load PL_API_KEY when the package is
+# imported from a script living elsewhere (producing a confusing 401).
 try:
-    from dotenv import load_dotenv
+    from dotenv import find_dotenv, load_dotenv
 
-    load_dotenv()
+    load_dotenv(find_dotenv(usecwd=True))
 except ImportError:
     pass  # If dotenv is not installed, skip loading .env
 
