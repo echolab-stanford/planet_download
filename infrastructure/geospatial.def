@@ -1,0 +1,75 @@
+# Apptainer/Singularity definition for the planet_download geospatial stack.
+#
+# Builds a self-contained image with a uv-managed Python environment holding the
+# full geospatial stack (rasterio, geopandas, shapely, pyproj, ...) plus the
+# packages scripts/patchify.py needs. Everything is installed from PyPI
+# manylinux wheels, which bundle GDAL/GEOS/PROJ, so no system GDAL is required.
+#
+# The repo code itself is NOT baked in -- bind-mount your checkout at runtime so
+# you can `git pull` / edit without rebuilding. The image only carries the env.
+#
+# Build (on a compute/sdev node with internet; needs --fakeroot):
+#   ml system apptainer
+#   export APPTAINER_CACHEDIR=$SCRATCH/.apptainer/cache
+#   export APPTAINER_TMPDIR=$SCRATCH/.apptainer/tmp
+#   mkdir -p "$APPTAINER_CACHEDIR" "$APPTAINER_TMPDIR"
+#   apptainer build --fakeroot $SCRATCH/geospatial.sif infrastructure/geospatial.def
+#
+# Run patchify:
+#   apptainer exec --cleanenv --bind $SCRATCH $SCRATCH/geospatial.sif \
+#     python $SCRATCH/planet_download/scripts/patchify.py \
+#       --src $SCRATCH/planet_dhs_sa_africa --out $SCRATCH/planet_patches \
+#       --workers 48 --grid-deg 1 --shard-size 512 --min-valid 0.5
+
+Bootstrap: docker
+From: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+
+%post
+    set -eux
+
+    # Isolated uv-managed virtual environment at /opt/venv
+    uv venv /opt/venv
+
+    # Geospatial stack + patchify deps (mirrors pyproject.toml, plus pillow).
+    # Pinning is intentionally left open here; pass a constraints file or pin
+    # versions below for byte-for-byte reproducibility.
+    uv pip install --python /opt/venv/bin/python --no-cache \
+        numpy \
+        pandas \
+        geopandas \
+        shapely \
+        pyproj \
+        rasterio \
+        rio-cogeo \
+        pillow \
+        requests \
+        click \
+        tqdm \
+        python-dotenv
+
+    # Smoke-test the imports at build time so a broken env fails the build,
+    # not the job three hours into a run.
+    /opt/venv/bin/python -c "import numpy, pandas, geopandas, shapely, pyproj, rasterio, rio_cogeo, PIL; print('geospatial stack ok')"
+
+%environment
+    export VIRTUAL_ENV=/opt/venv
+    export PATH=/opt/venv/bin:$PATH
+    # Keep GDAL/PROJ quiet and deterministic
+    export GDAL_PAM_ENABLED=NO
+
+%runscript
+    exec python "$@"
+
+%labels
+    org echolab-stanford
+    project planet_download
+    purpose Geospatial stack (uv) for patch extraction and analysis
+
+%help
+    uv-managed geospatial environment for planet_download.
+
+    The environment lives at /opt/venv and is on PATH, so `python` already
+    resolves to it (no activation needed). Bind-mount your repo + data and run:
+
+      apptainer exec --cleanenv --bind $SCRATCH <image>.sif \
+        python /path/to/planet_download/scripts/patchify.py --src ... --out ...
