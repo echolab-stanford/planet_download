@@ -11,11 +11,21 @@ The library is inspired by the official [Planet Basemaps API notebooks](https://
 
 ## Installation
 
-Install the required dependencies:
+Install the package and its dependencies (an editable install is recommended for
+development). Using [`uv`](https://github.com/astral-sh/uv):
 
 ```bash
-pip install python-dotenv geopandas pandas click
+uv pip install -e .
 ```
+
+or with plain `pip`:
+
+```bash
+pip install -e .
+```
+
+This pulls in everything the library needs: `requests`, `geopandas`, `pandas`,
+`numpy`, `shapely`, `rasterio`, `rio-cogeo`, `click`, `tqdm`, and `python-dotenv`.
 
 ## Setup
 
@@ -24,6 +34,15 @@ Create a `.env` file in your project root with your Planet API key:
 ```env
 PL_API_KEY=your_planet_api_key_here
 ```
+
+> **Note:** Your Planet API key must be entitled to **Basemaps / Mosaics**
+> products. The Basemaps API authenticates any valid key (returning HTTP 200),
+> but it only returns the mosaics and series your plan is provisioned for — an
+> account without a basemaps entitlement will see empty `series`/`mosaics`
+> listings (and lookups like `Global Quarterly` will fail with "not found").
+> Scene-catalog (Data API) access does not imply basemap access. Confirm your
+> plan's basemap entitlement and available series names with your Planet account
+> contact if listings come back empty.
 
 ## Command Line Usage
 

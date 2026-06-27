@@ -117,7 +117,7 @@ def download(
             year_labels = labels_aoi[labels_aoi["year"] == year]
 
             # Create spatial union of buffered labels for this year
-            year_union = year_labels.unary_union
+            year_union = year_labels.union_all()
             region_dict = mapping(year_union)
 
             print(f"Fetching quads for {len(year_labels)} labels in {year}...")

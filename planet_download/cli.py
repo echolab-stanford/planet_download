@@ -1,11 +1,13 @@
 """Command line interface for Planet Download."""
 
 import click
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 from tqdm import tqdm
 
-# Load environment variables at module level
-load_dotenv()
+# Load environment variables at module level. find_dotenv(usecwd=True) resolves
+# the .env relative to the working directory, so the CLI picks up PL_API_KEY
+# regardless of where the installed entry point is invoked from.
+load_dotenv(find_dotenv(usecwd=True))
 
 
 @click.group()
@@ -53,9 +55,10 @@ def download_all(geojson, start_date, end_date, cadence):
         bbox=gdf_bounds, start_date=start_date, end_date=end_date
     )
 
-    # Trigger the downloads
+    # Trigger the downloads. `downloads` is a generator, so its length is not
+    # known up front; tqdm will simply show a count without a progress bar.
     click.echo("Starting downloads...")
-    for d in tqdm(downloads, desc="Downloading files", total=len(downloads)):
+    for d in tqdm(downloads, desc="Downloading files"):
         pass
 
 
