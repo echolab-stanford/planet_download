@@ -27,6 +27,13 @@ From: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 %post
     set -eux
 
+    # System runtime libs the bundled GDAL (inside the rasterio/pyogrio wheels)
+    # dlopens at import but that are absent from the slim base. libexpat1 is the
+    # known one; keep this list minimal and grow it only if an import fails.
+    apt-get update && apt-get install -y --no-install-recommends \
+        libexpat1 \
+        && rm -rf /var/lib/apt/lists/*
+
     # Isolated uv-managed virtual environment at /opt/venv
     uv venv /opt/venv
 
