@@ -64,6 +64,16 @@ sbatch --export=ALL,SAMPLE_FRAC=0.02 infrastructure/run_patchify_composite.sbatc
 sbatch --export=ALL,RESUME=1 infrastructure/run_patchify_composite.sbatch          # resume
 ```
 
+To compute the per-band normalization stats (mean/std/min/max over the
+composites, RGB by default), use `run_band_stats.sbatch` → writes
+`band_stats.json` + `band_stats.npz` next to the composites. Composite stats
+equal the patch stats (verified bit-exact), so this avoids reading the ~1.2M
+PNGs:
+
+```bash
+sbatch infrastructure/run_band_stats.sbatch
+```
+
 ### Notes
 
 - The dependency list in `geospatial.def` mirrors `pyproject.toml` (plus
