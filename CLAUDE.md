@@ -25,10 +25,15 @@ training**.
     quads → uniform shard folders + `manifest.csv` (see below).
   - `patchify_composite.py` — same, but from the **per-year composites**
     (cloud-reduced); preferred input. See below.
+  - `compute_band_stats.py` — exact per-band mean/std/min/max over the composites
+    (RGB by default) for input normalization; writes JSON + a sibling `.npz`.
+    rasterio-based (the container has no `osgeo`). Composite stats == patch stats
+    (verified bit-exact), so no need to read the 1.2M PNGs.
   - `check_corrupted_tifs.py`, `redownload_corrupted.py` — TIF QA utilities.
 - `infrastructure/` — Apptainer/Singularity container (`geospatial.def`) + Slurm
-  jobs (`run_patchify.sbatch` raw, `run_patchify_composite.sbatch` composites)
-  for running on Sherlock. See its README.
+  jobs (`run_patchify.sbatch` raw, `run_patchify_composite.sbatch` composites,
+  `run_band_stats.sbatch` normalization stats) for running on Sherlock. See its
+  README.
 - `data/` — cached dataset-audit outputs (size/band inventory, coverage stats,
   maps). See `data/README.md` for provenance. Don't recompute these; reuse them.
 - `reports/` — self-contained HTML coverage report.
