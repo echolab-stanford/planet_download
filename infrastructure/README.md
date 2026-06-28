@@ -52,6 +52,18 @@ a **compute node** — login nodes have low per-process limits (a too-low
 open-file limit there shows up as `OSError: [Errno 24] Too many open files`
 during heavy geospatial imports).
 
+To patch the **cloud-reduced per-year composites** instead, use
+`scripts/patchify_composite.py` (`--src $SCRATCH/planet_composite_sa_dhs
+--crosswalks $SCRATCH/planet_dhs_sa_africa`). The submit jobs are
+`run_patchify.sbatch` (raw) and `run_patchify_composite.sbatch` (composites);
+the latter uses `--mem=96G` since composites are float64 (~4× the raw RAM):
+
+```bash
+sbatch infrastructure/run_patchify_composite.sbatch                       # full run (~1.2M patches)
+sbatch --export=ALL,SAMPLE_FRAC=0.02 infrastructure/run_patchify_composite.sbatch  # smoke test
+sbatch --export=ALL,RESUME=1 infrastructure/run_patchify_composite.sbatch          # resume
+```
+
 ### Notes
 
 - The dependency list in `geospatial.def` mirrors `pyproject.toml` (plus
