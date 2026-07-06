@@ -51,7 +51,12 @@ def parse_planet_filesystem(root_dir: str | Path) -> dict[int, dict[str, list[Pa
 
 
 def create_composite(
-    list_rasters: list[Path], save_path: str | Path, operation="median", only_rgb=False,overwrite=False
+    list_rasters: list[Path],
+    save_path: str | Path,
+    operation="median",
+    only_rgb=False,
+    overwrite=False,
+    dtype: str | None = None,
 ) -> None:
     """Create a composite raster from a set of raster images (RGB)
 
@@ -71,6 +76,11 @@ def create_composite(
         Whether to take only the RGB bands for the composite. Default is False (takes all bands).
     overwrite : bool, optional
         Whether to overwrite the output file if it already exists. Default is False.
+    dtype : str, optional
+        Output dtype to cast the composite to before writing (e.g. "uint8").
+        ``mean``/``median`` produce floats; passing "uint8" rounds and clips the
+        values to ``[0, 255]`` so RGB basemaps are stored compactly. Default is
+        None (keep the computed float dtype).
 
     Returns
     -------
@@ -147,8 +157,15 @@ def create_composite(
         # Take only RGB
         arr = arr[0:3, :, :]
 
+    if dtype is not None:
+        if np.dtype(dtype).kind in ("u", "i"):
+            info = np.iinfo(dtype)
+            arr = np.clip(np.rint(arr), info.min, info.max)
+        arr = arr.astype(dtype)
+
     with MemoryFile() as memfile:
-        # Re-write the new dtype
+        # Re-write the new dtype/band count (`meta` aliases arr_meta[0], so the
+        # update below also propagates to the profile passed to memfile.open).
         meta = arr_meta[0]
         meta.update({"dtype": arr.dtype, "count": arr.shape[0]})
 
@@ -171,6 +188,8 @@ def process_composites_parallel(
     operation="mean",
     overwrite=False,
     nthreads: int = 4,
+    only_rgb: bool = True,
+    dtype: str | None = None,
 ) -> None:
     """
     Process composites in parallel for each quad in the dictionary.
@@ -200,7 +219,14 @@ def process_composites_parallel(
 
         def process_quad(quad_name: str, quad_paths: list[Path]) -> None:
             """Process a single quad by creating a composite."""
-            create_composite(quad_paths, year_save_dir, operation=operation, overwrite=overwrite)
+            create_composite(
+                quad_paths,
+                year_save_dir,
+                operation=operation,
+                overwrite=overwrite,
+                only_rgb=only_rgb,
+                dtype=dtype,
+            )
 
         tasks = [(quad_name, quad_paths) for quad_name, quad_paths in quads.items()]
 
@@ -344,9 +370,20 @@ def resample_resolution_parallel(
 
 
 def merge_composites_by_date(
-    path_to_composites: str | Path, save_path: str | Path, year: None | int = None
+    path_to_composites: str | Path,
+    save_path: str | Path,
+    year: None | int = None,
+    out_prefix: str = "planet_composite_mosaic",
+    compress: str | None = "deflate",
+    tiled: bool = True,
+    blocksize: int = 256,
 ) -> None:
     """Merge overlapping yearly/monthly composites
+
+    Each subdirectory of ``path_to_composites`` (one per year/period) is mosaicked
+    into a single ``<out_prefix>_<period>.tif``. The output is written tiled and
+    DEFLATE-compressed by default so the merged mosaic matches the COG-style
+    layout of the reference basemaps.
 
     Parameters
     ----------
@@ -356,6 +393,14 @@ def merge_composites_by_date(
         Path to the directory where the merged TIFF file will be saved.
     year : None | int
         Year to filter the composites (if None, all years will be processed).
+    out_prefix : str, optional
+        Filename prefix for the merged mosaic. Default "planet_composite_mosaic".
+    compress : str | None, optional
+        Raster compression to apply (e.g. "deflate"). None disables compression.
+    tiled : bool, optional
+        Whether to write internal tiles. Default True.
+    blocksize : int, optional
+        Internal tile size when ``tiled`` is True. Default 256.
 
     Returns
     -------
@@ -365,38 +410,48 @@ def merge_composites_by_date(
     if isinstance(path_to_composites, str):
         path_to_composites = Path(path_to_composites)
 
-    comp_time_folder = [d for d in path_to_composites.iterdir()]
+    comp_time_folder = [d for d in path_to_composites.iterdir() if d.is_dir()]
+    if year is not None:
+        comp_time_folder = [d for d in comp_time_folder if str(year) in d.name]
 
-    for time_dir in tqdm(comp_time_folder, desc="Processing months..."):
-        print(time_dir)
+    output_dir = Path(save_path)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for time_dir in tqdm(comp_time_folder, desc="Merging composites..."):
         paths_month = list(time_dir.glob("*.tif"))
+        if not paths_month:
+            continue
         tiff_files_open = [rasterio.open(p) for p in paths_month]
 
-        # Merge the TIFF files
-        mosaic, out_trans = merge(tiff_files_open)
+        try:
+            # Merge the TIFF files
+            mosaic, out_trans = merge(tiff_files_open)
 
-        # Write the mosaic to a new TIFF file
+            output_file = output_dir / f"{out_prefix}_{time_dir.name}.tif"
 
-        # Create folder if it doesn't exist
-        output_dir = Path(save_path)
-        output_dir.mkdir(parents=True, exist_ok=True)
+            # Use first element meta
+            out_meta = tiff_files_open[0].meta.copy()
 
-        output_file = output_dir / f"planet_composite_mosaic_{time_dir.name}.tif"
+            out_meta.update(
+                {
+                    "driver": "GTiff",
+                    "height": mosaic.shape[1],
+                    "width": mosaic.shape[2],
+                    "dtype": mosaic.dtype,
+                    "crs": tiff_files_open[0].crs,
+                    "transform": out_trans,
+                }
+            )
+            if compress is not None:
+                out_meta["compress"] = compress
+            if tiled:
+                out_meta.update(
+                    {"tiled": True, "blockxsize": blocksize, "blockysize": blocksize}
+                )
 
-        # Use first element meta
-        out_meta = tiff_files_open[0].meta.copy()
-
-        out_meta.update(
-            {
-                "driver": "GTiff",
-                "height": mosaic.shape[1],
-                "width": mosaic.shape[2],
-                "dtype": mosaic.dtype,
-                "crs": tiff_files_open[0].crs,
-                "transform": out_trans,
-            }
-        )
-
-        with rasterio.open(output_file, "w", **out_meta) as dst:
-            dst.write(mosaic)
+            with rasterio.open(output_file, "w", **out_meta) as dst:
+                dst.write(mosaic)
+        finally:
+            for src in tiff_files_open:
+                src.close()
     return None

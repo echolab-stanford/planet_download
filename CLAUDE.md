@@ -19,7 +19,14 @@ training**.
   - `cli.py` — `planet-download download-all` CLI.
   - `composites.py` — mean/median temporal composites (COG output), resampling,
     merging.
-- `main/download_and_process.py` — `download` + `composite` CLI over a label CSV.
+- `main/download_and_process.py` — download/composite CLI. Commands:
+  `download` (buffer CSV label points), `download-aoi` (quads overlapping a
+  GeoJSON polygon AOI over a year range), `composite` (mean/median temporal
+  composite; `--only-rgb`/`--dtype uint8` default to RGB uint8), `resample`
+  (to a target resolution, e.g. 5 m), `merge` (per-year mosaics, tiled+DEFLATE),
+  and `grid-mosaic` — the full download→composite→resample→merge pipeline that
+  reproduces `examples/create_composites_grid.ipynb` (e.g. the Siaya grid 5 m
+  RGB-uint8 mosaics in `data/labels/composites_median_grid_mosaic`).
 - `scripts/`
   - `patchify.py` — extract 512×512 RGB patches from the **raw per-quarter**
     quads → uniform shard folders + `manifest.csv` (see below).
