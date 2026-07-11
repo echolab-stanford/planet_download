@@ -12,7 +12,8 @@ from rasterio.io import MemoryFile
 from rasterio.merge import merge
 from rasterio.transform import from_origin
 from rasterio.vrt import WarpedVRT
-from rasterio.windows import Window
+from rasterio.warp import transform_bounds
+from rasterio.windows import Window, from_bounds
 from rio_cogeo.cogeo import cog_translate
 from rio_cogeo.profiles import cog_profiles
 from shapely.geometry import shape
@@ -680,9 +681,24 @@ def create_scene_composite(
     }
 
     with contextlib.ExitStack() as ctx:
+        # Open each scene as a VRT on the target grid, and record the grid
+        # pixel window its footprint spans. Each PSScene covers only a few
+        # percent of the AOI, so per tile we read just the handful of scenes
+        # that overlap it instead of all of them.
         vrts = []
+        scene_windows = []
         for path in masked_paths:
             src = ctx.enter_context(rasterio.open(path))
+            bounds = transform_bounds(src.crs, grid["crs"], *src.bounds)
+            win = from_bounds(*bounds, transform=grid["transform"])
+            scene_windows.append(
+                (
+                    max(0, math.floor(win.row_off)),
+                    min(grid["height"], math.ceil(win.row_off + win.height)),
+                    max(0, math.floor(win.col_off)),
+                    min(grid["width"], math.ceil(win.col_off + win.width)),
+                )
+            )
             vrts.append(
                 ctx.enter_context(
                     WarpedVRT(src, resampling=Resampling.bilinear, **grid)
@@ -700,15 +716,26 @@ def create_scene_composite(
         with tqdm(total=n_windows, desc=f"Compositing {output_file.name}") as pbar:
             for row_off in row_offs:
                 for col_off in col_offs:
-                    window = Window(
-                        col_off,
-                        row_off,
-                        min(blocksize, grid["width"] - col_off),
-                        min(blocksize, grid["height"] - row_off),
-                    )
+                    pbar.update(1)
+                    bh = min(blocksize, grid["height"] - row_off)
+                    bw = min(blocksize, grid["width"] - col_off)
 
+                    # Scenes whose footprint overlaps this tile.
+                    overlap = [
+                        vrts[i]
+                        for i, (r0, r1, c0, c1) in enumerate(scene_windows)
+                        if r0 < row_off + bh
+                        and r1 > row_off
+                        and c0 < col_off + bw
+                        and c1 > col_off
+                    ]
+                    if not overlap:
+                        # No coverage here; tile stays nodata (0).
+                        continue
+
+                    window = Window(col_off, row_off, bw, bh)
                     stack = []
-                    for vrt in vrts:
+                    for vrt in overlap:
                         arr = vrt.read(indexes=[1, 2, 3, 4], window=window).astype(
                             "float32"
                         )
@@ -725,7 +752,6 @@ def create_scene_composite(
                     composite = np.nan_to_num(composite)
                     composite = np.clip(np.rint(composite), 0, 65535)
                     dst.write(composite.astype("uint16"), window=window)
-                    pbar.update(1)
 
 
 def process_scene_composites(
