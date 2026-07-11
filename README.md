@@ -1,11 +1,14 @@
 # Planet Download
 
-Planet Download is a Python library and CLI for programmatically searching and downloading Planet Basemaps imagery. It wraps the Planet Basemaps API, making it easy to:
+Planet Download is a Python library and CLI for programmatically searching and downloading Planet imagery. It wraps the Planet Basemaps API and the PlanetScope scene APIs (Data + Orders), making it easy to:
 
 - List available mosaics and series
 - Download all imagery quads for a given area of interest (AOI) and time range
 - Automate bulk downloads for geospatial workflows
 - Use a filtering geometry to retrieve specific quads rather than a whole AOI
+- Search and download PlanetScope (PSScene) surface-reflectance scenes clipped
+  to an AOI, and build yearly cloud-masked median composites at 3 m with an
+  NIR band
 
 The library is inspired by the official [Planet Basemaps API notebooks](https://github.com/planetlabs/notebooks/blob/master/jupyter-notebooks/Basemaps-API/basemaps_api_introduction.ipynb), but provides a streamlined interface for both scripting and command-line use.
 
@@ -25,7 +28,9 @@ pip install -e .
 ```
 
 This pulls in everything the library needs: `requests`, `geopandas`, `pandas`,
-`numpy`, `shapely`, `rasterio`, `rio-cogeo`, `click`, `tqdm`, and `python-dotenv`.
+`numpy`, `shapely`, `rasterio`, `rio-cogeo`, `click`, `tqdm`, `python-dotenv`,
+and the official [`planet`](https://planet-sdk-for-python.readthedocs.io/) SDK
+(used for the PlanetScope scene workflow).
 
 ## Setup
 
@@ -57,6 +62,61 @@ planet-download download-all \
 ```
 
 This will download all available imagery quads for the AOI and time range from the specified basemap series (default: Global Quarterly).
+
+The same `planet-download` entry point exposes the full processing CLI
+(`download`, `download-aoi`, `composite`, `resample`, `merge`, `grid-mosaic`,
+and the `ps-*` commands below); run `planet-download --help` for the list.
+You can also run it without installing, straight from the repo or from GitHub,
+with [`uvx`](https://docs.astral.sh/uv/guides/tools/):
+
+```bash
+uvx --from . planet-download ps-search ...                # local checkout
+uvx --from git+https://github.com/echolab-stanford/planet_download \
+  planet-download ps-search ...                           # straight from GitHub
+```
+
+(`uvx` builds the package in an isolated environment; the CLI reads
+`PL_API_KEY` from the `.env` in your working directory as usual.)
+
+## PlanetScope scenes (PSScene)
+
+Besides basemaps, the CLI can download raw
+PlanetScope scenes for an AOI and composite them into one cloud-masked image
+per year (4-band **B, G, R, NIR** `uint16` GeoTIFF at 3 m, in the AOI's UTM
+zone). Scenes are ordered through the Orders API with the surface-reflectance
++ udm2 bundle (`analytic_sr_udm2`), Sentinel-2 harmonization, and a server-side
+clip to the AOI; the median composite is built locally, masking each scene
+with its udm2 clear band.
+
+Start with a free dry run to see how many scenes match and what they would
+cost in download quota:
+
+```bash
+planet-download ps-search \
+  --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA \
+  --start-year 2022 --end-year 2023
+```
+
+Then download and composite:
+
+```bash
+planet-download ps-download \
+  --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA \
+  --start-year 2022 --end-year 2023 \
+  --save-dir data/ps_scenes
+
+planet-download ps-composite \
+  --data-dir data/ps_scenes --output-dir data/ps_composites \
+  --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA
+```
+
+> **Note on quota:** unlike basemap quads, PSScene downloads consume an
+> area-based quota — every clipped scene bills its intersection with the AOI.
+> Downloading *all* clear scenes of a year would cost ~200× the AOI area, so
+> by default only the `--per-month 3` clearest scenes are kept (~36 per year,
+> plenty for a median composite). `ps-search` always prints the estimated
+> billed km² first, and `ps-download` asks for confirmation before placing
+> orders (skip with `--yes`).
 
 ## Python Example
 

@@ -16,7 +16,8 @@ training**.
   - `client.py` — standalone Planet Basemaps API client (`BasemapsClient`,
     `MosaicSeries`, `Mosaic`, `MosaicQuad`). Adapted from Planet's official
     `basemaps_client.py`. Uses `https://api.planet.com/basemaps/v1`, auth = `(api_key, "")`.
-  - `cli.py` — `planet-download download-all` CLI.
+  - `cli.py` — the full CLI behind the `planet-download` entry point (all
+    commands below; also runnable via `uvx --from . planet-download ...`).
   - `composites.py` — mean/median temporal composites (COG output), resampling,
     merging. Also the PSScene compositing path (`find_scene_files`,
     `create_scene_composite`, `process_scene_composites`): udm2 cloud-masked,
@@ -25,7 +26,9 @@ training**.
     official `planet` SDK v3: Data API search, top-K-clearest-per-month
     selection (the quota guard), Orders API clipped orders
     (`analytic_sr_udm2` bundle, optional Sentinel-2 harmonization).
-- `main/download_and_process.py` — download/composite CLI. Commands:
+- `main/download_and_process.py` — thin shim re-exporting `planet_download.cli`
+  (kept so `python main/download_and_process.py ...` invocations keep working).
+  Commands:
   `download` (buffer CSV label points), `download-aoi` (quads overlapping a
   GeoJSON polygon AOI over a year range), `composite` (mean/median temporal
   composite; `--only-rgb`/`--dtype uint8` default to RGB uint8), `resample`
