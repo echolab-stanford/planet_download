@@ -15,13 +15,16 @@ from planet_download.composites import (
     parse_planet_filesystem,
     process_composites_parallel,
     process_scene_composites,
+    process_scene_masks,
     resample_resolution_parallel,
 )
 from planet_download.scenes import (
     estimate_billed_area,
+    get_planet_client,
     order_scenes,
     search_scenes,
     select_scenes,
+    sr_downloadable,
 )
 
 # Load environment variables at module level. find_dotenv(usecwd=True) resolves
@@ -632,21 +635,36 @@ def _search_and_report(
     max_cloud: float,
     min_clear: float,
     per_month: int,
+    client,
 ):
-    """Search PSScene items, apply the per-month cap, and print the quota cost.
+    """Search PSScene items, keep SR-available scenes, and print the quota cost.
 
     Shared by ps-search (dry run) and ps-download so both always report the
-    scene counts and the estimated billed area before any quota is spent.
+    scene counts and the estimated billed area before any quota is spent. Only
+    scenes whose surface-reflectance asset we can download are kept, so orders
+    (rejected wholesale if any item lacks SR) never fail.
     """
     print(f"Searching PSScene {start_year}-{end_year} over the AOI...")
     scenes = search_scenes(
-        region, start_year, end_year, max_cloud=max_cloud, min_clear=min_clear
+        region,
+        start_year,
+        end_year,
+        max_cloud=max_cloud,
+        min_clear=min_clear,
+        client=client,
     )
-    selected = select_scenes(scenes, per_month=per_month)
+
+    # Verify SR download permission. Bound the (per-scene) checks to a pool of
+    # the clearest candidates when a per-month cap is in effect.
+    candidates = scenes if per_month <= 0 else select_scenes(scenes, per_month * 4)
+    sr_ids = sr_downloadable(candidates["id"].tolist(), client=client)
+    sr_scenes = candidates[candidates["id"].isin(sr_ids)]
+    selected = select_scenes(sr_scenes, per_month=per_month)
 
     print(
-        f"Found {len(scenes)} scenes; selected {len(selected)} "
-        f"(top {per_month or 'all'} clearest per month)."
+        f"Found {len(scenes)} scenes; of {len(candidates)} candidates "
+        f"{len(sr_scenes)} have downloadable SR; selected {len(selected)} "
+        f"(top {per_month or 'all'} per month)."
     )
     if not selected.empty:
         counts = selected.groupby("year")["id"].count()
@@ -704,7 +722,13 @@ def ps_search(
     """
     region = _load_aoi_region(geojson, filter_col, filter_val)
     selected = _search_and_report(
-        region, start_year, end_year, max_cloud, min_clear, per_month
+        region,
+        start_year,
+        end_year,
+        max_cloud,
+        min_clear,
+        per_month,
+        get_planet_client(),
     )
 
     if save_footprints and not selected.empty:
@@ -772,13 +796,15 @@ def ps_download(
 ) -> None:
     """Download PlanetScope scenes clipped to an AOI via the Orders API.
 
-    Scenes are ordered with the SR + udm2 bundle (fallback TOA) and a clip
-    tool, one order per year, and land in {save-dir}/{year}/{order_id}/ —
-    the layout `ps-composite` expects. NOTE: this consumes download quota.
+    Scenes are ordered with the surface-reflectance + udm2 bundle and a clip
+    tool, one order per year, and land in {save-dir}/{year}/{order_id}/ — the
+    layout `ps-mask`/`ps-composite` expect. Only SR-licensed scenes are
+    ordered. NOTE: this consumes download quota.
     """
+    client = get_planet_client()
     region = _load_aoi_region(geojson, filter_col, filter_val)
     selected = _search_and_report(
-        region, start_year, end_year, max_cloud, min_clear, per_month
+        region, start_year, end_year, max_cloud, min_clear, per_month, client
     )
 
     if selected.empty:
@@ -796,8 +822,40 @@ def ps_download(
         os.path.join(save_dir, "ps_selected_scenes.geojson"), driver="GeoJSON"
     )
 
-    order_scenes(selected, region, save_dir, order_name=order_name, harmonize=harmonize)
+    order_scenes(
+        selected,
+        region,
+        save_dir,
+        order_name=order_name,
+        harmonize=harmonize,
+        client=client,
+    )
     print(f"Done. Scenes downloaded to {save_dir}")
+
+
+@cli.command("ps-mask")
+@click.option(
+    "--data-dir",
+    required=True,
+    type=click.Path(exists=True),
+    help="Directory of per-year scene downloads (from ps-download).",
+)
+@click.option(
+    "--output-dir",
+    required=True,
+    type=click.Path(),
+    help="Directory to write the udm2-masked scenes.",
+)
+@click.option("--overwrite", is_flag=True, default=False)
+def ps_mask(data_dir: str, output_dir: str, overwrite: bool) -> None:
+    """Apply the udm2 cloud mask to downloaded scenes before compositing.
+
+    Each SR scene is masked with its udm2 clear band (cloud/shadow/haze/snow →
+    nodata 0) and written to {output-dir}/{year}/{scene_id}_masked.tif, ready
+    for `ps-composite`.
+    """
+    process_scene_masks(data_dir=data_dir, save_dir=output_dir, overwrite=overwrite)
+    print(f"Done. Masked scenes written to {output_dir}")
 
 
 @cli.command("ps-composite")
@@ -805,7 +863,7 @@ def ps_download(
     "--data-dir",
     required=True,
     type=click.Path(exists=True),
-    help="Directory of per-year scene downloads (from ps-download).",
+    help="Directory of per-year masked scenes (from ps-mask).",
 )
 @click.option(
     "--output-dir",
@@ -845,15 +903,15 @@ def ps_composite(
     target_resolution: float,
     overwrite: bool,
 ) -> None:
-    """Build cloud-masked yearly composites from downloaded PlanetScope scenes.
+    """Build yearly composites from udm2-masked PlanetScope scenes.
 
-    Each scene is masked with its udm2 clear band, warped onto a common UTM
-    grid over the AOI, and aggregated per pixel — one 4-band (B, G, R, NIR)
-    uint16 GeoTIFF per year.
+    Each masked scene (from `ps-mask`) is warped onto a common UTM grid over
+    the AOI and aggregated per pixel — one 4-band (B, G, R, NIR) uint16 GeoTIFF
+    per year.
     """
     region = _load_aoi_region(geojson, filter_col, filter_val)
     process_scene_composites(
-        data_dir=data_dir,
+        masked_dir=data_dir,
         save_dir=output_dir,
         region=region,
         resolution=target_resolution,

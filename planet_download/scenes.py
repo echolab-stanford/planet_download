@@ -9,12 +9,16 @@ activation/order polling, pagination, rate-limit retries, and checksums.
 The intended flow (see the ``ps-*`` CLI commands):
 
 1. ``search_scenes``   - find PSScene items over an AOI/year range (free).
-2. ``select_scenes``   - keep the top-K clearest scenes per month. Quota is
+2. ``sr_downloadable`` - keep only scenes we can license surface reflectance
+   for (SR is not available for the whole archive).
+3. ``select_scenes``   - keep the top-K clearest scenes per month. Quota is
    billed per clipped scene ("premium" style), so downloading every clear
    scene of a year would cost ~200x the AOI area; a median composite
    saturates with a few dozen looks.
-3. ``estimate_billed_area`` - preview the quota cost before ordering.
-4. ``order_scenes``    - place clipped Orders API orders and download them.
+4. ``estimate_billed_area`` - preview the quota cost before ordering.
+5. ``order_scenes``    - place clipped Orders API orders and download them.
+
+Masking (udm2) and compositing then happen in ``composites.py``.
 """
 
 import datetime as dt
@@ -26,11 +30,14 @@ import pandas as pd
 from planet import Auth, Planet, data_filter, order_request
 from planet.http import Session
 from shapely.geometry import shape
+from tqdm import tqdm
 
-# Surface reflectance + usable-data-mask bundle; TOA fallback for scenes
-# without an SR asset. 4-band (B, G, R, NIR) for 2017+ temporal consistency.
+# Surface reflectance + usable-data-mask bundle: delivers ortho_analytic_4b_sr
+# (4-band B, G, R, NIR) plus the ortho_udm2 cloud mask. No TOA fallback — we
+# order SR only, so scenes without a licensed SR asset are filtered out before
+# ordering (see ``sr_downloadable``) rather than silently downloaded as TOA.
 PRODUCT_BUNDLE = "analytic_sr_udm2"
-FALLBACK_BUNDLE = "analytic_udm2"
+SR_ASSET = "ortho_analytic_4b_sr"
 ITEM_TYPE = "PSScene"
 
 # Orders API caps orders at 500 items each.
@@ -66,8 +73,9 @@ def search_scenes(
 ) -> gpd.GeoDataFrame:
     """Search PSScene items overlapping an AOI over a year range.
 
-    Search is free (no quota). Only scenes with a downloadable SR asset are
-    returned, so every result can be ordered with ``PRODUCT_BUNDLE``.
+    Search is free (no quota). Results are pre-filtered to scenes that list an
+    SR asset and grant generic download permission, but SR access must still be
+    confirmed per item with ``sr_downloadable`` before ordering.
 
     Parameters
     ----------
@@ -153,6 +161,40 @@ def select_scenes(scenes: gpd.GeoDataFrame, per_month: int = 3) -> gpd.GeoDataFr
     )
 
 
+def sr_downloadable(scene_ids: list[str], client: Planet | None = None) -> set[str]:
+    """Return the subset of scene ids whose SR asset we can download.
+
+    Surface reflectance is only licensed for part of the PlanetScope archive
+    (e.g. ~2/3 of the 2017 PS2 scenes). An Orders API order is rejected wholesale
+    if any item lacks SR access, so callers must drop non-SR scenes first. This
+    checks each item's asset permissions (a free Data API call per scene).
+
+    Parameters
+    ----------
+    scene_ids : list[str]
+        Candidate PSScene ids to check.
+    client : Planet, optional
+        SDK client; created from PL_API_KEY if not given.
+
+    Returns
+    -------
+    set[str]
+        Ids with a downloadable ``ortho_analytic_4b_sr`` asset.
+    """
+    if client is None:
+        client = get_planet_client()
+
+    keep = set()
+    for sid in tqdm(scene_ids, desc="Checking SR availability"):
+        try:
+            assets = client.data.list_item_assets(ITEM_TYPE, sid)
+        except Exception:
+            continue
+        if "download" in (assets.get(SR_ASSET, {}).get("_permissions") or []):
+            keep.add(sid)
+    return keep
+
+
 def estimate_billed_area(scenes: gpd.GeoDataFrame, region: dict) -> float:
     """Estimate the quota cost (km²) of ordering these scenes clipped to the AOI.
 
@@ -232,7 +274,6 @@ def order_scenes(
                         chunk,
                         product_bundle=PRODUCT_BUNDLE,
                         item_type=ITEM_TYPE,
-                        fallback_bundle=FALLBACK_BUNDLE,
                     )
                 ],
                 tools=tools,

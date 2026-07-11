@@ -80,13 +80,12 @@ uvx --from git+https://github.com/echolab-stanford/planet_download \
 
 ## PlanetScope scenes (PSScene)
 
-Besides basemaps, the CLI can download raw
-PlanetScope scenes for an AOI and composite them into one cloud-masked image
-per year (4-band **B, G, R, NIR** `uint16` GeoTIFF at 3 m, in the AOI's UTM
-zone). Scenes are ordered through the Orders API with the surface-reflectance
-+ udm2 bundle (`analytic_sr_udm2`), Sentinel-2 harmonization, and a server-side
-clip to the AOI; the median composite is built locally, masking each scene
-with its udm2 clear band.
+Besides basemaps, the CLI can download raw PlanetScope scenes for an AOI and
+composite them into one cloud-free image per year (4-band **B, G, R, NIR**
+`uint16` GeoTIFF at 3 m, in the AOI's UTM zone). Scenes are ordered through the
+Orders API with the surface-reflectance + udm2 bundle (`analytic_sr_udm2`),
+Sentinel-2 harmonization, and a server-side clip to the AOI. The pipeline is
+four steps: **search → download → mask → composite**.
 
 Start with a free dry run to see how many scenes match and what they would
 cost in download quota:
@@ -97,7 +96,7 @@ planet-download ps-search \
   --start-year 2022 --end-year 2023
 ```
 
-Then download and composite:
+Then download, apply the udm2 cloud mask, and composite:
 
 ```bash
 planet-download ps-download \
@@ -105,10 +104,19 @@ planet-download ps-download \
   --start-year 2022 --end-year 2023 \
   --save-dir data/ps_scenes
 
+# Mask each scene with its udm2 clear band (cloud/shadow/haze/snow -> nodata)
+planet-download ps-mask \
+  --data-dir data/ps_scenes --output-dir data/ps_masked
+
 planet-download ps-composite \
-  --data-dir data/ps_scenes --output-dir data/ps_composites \
+  --data-dir data/ps_masked --output-dir data/ps_composites \
   --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA
 ```
+
+Only surface-reflectance is retrieved (`ortho_analytic_4b_sr`); SR is not
+licensed for the whole archive (e.g. ~2/3 of 2017 PS2 scenes), so `ps-search`/
+`ps-download` verify SR availability per scene and drop the rest — otherwise the
+Orders API rejects the whole order.
 
 > **Note on quota:** unlike basemap quads, PSScene downloads consume an
 > area-based quota — every clipped scene bills its intersection with the AOI.

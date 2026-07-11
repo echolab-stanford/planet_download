@@ -517,8 +517,107 @@ def _aoi_grid(region: dict, resolution: float) -> dict:
     }
 
 
+def mask_scene(
+    sr_path: str | Path,
+    udm2_path: str | Path,
+    out_path: str | Path,
+    overwrite: bool = False,
+) -> None:
+    """Write a udm2-cloud-masked copy of one PSScene SR image.
+
+    Pixels that the udm2 mask does not flag as "clear" (band 1 == 1, i.e. any
+    cloud, shadow, haze, or snow) are set to the nodata value 0, so the masked
+    image contains only usable surface-reflectance pixels.
+
+    Parameters
+    ----------
+    sr_path : str | Path
+        Surface-reflectance scene (``*_AnalyticMS_SR*.tif``).
+    udm2_path : str | Path
+        Matching usable-data mask (``*_udm2*.tif``).
+    out_path : str | Path
+        Output masked GeoTIFF (4-band B, G, R, NIR uint16, nodata 0).
+    overwrite : bool, optional
+        Whether to overwrite an existing output. Default False.
+    """
+    out_path = Path(out_path)
+    if out_path.exists() and not overwrite:
+        return
+
+    with rasterio.open(sr_path) as sr, rasterio.open(udm2_path) as udm2:
+        profile = sr.profile.copy()
+        data = sr.read()
+        clear = udm2.read(1)
+
+    # udm2 is occasionally 1 px larger/smaller than the image; crop both to the
+    # shared top-left overlap (the transform origin is unchanged, so this stays
+    # georeferenced).
+    height = min(data.shape[1], clear.shape[0])
+    width = min(data.shape[2], clear.shape[1])
+    data = data[:, :height, :width]
+    clear = clear[:height, :width]
+
+    data[:, clear != 1] = 0
+
+    profile.update(
+        driver="GTiff",
+        height=height,
+        width=width,
+        nodata=0,
+        compress="deflate",
+        tiled=True,
+        blockxsize=512,
+        blockysize=512,
+    )
+    with rasterio.open(out_path, "w", **profile) as dst:
+        dst.write(data)
+        for band, name in enumerate(["blue", "green", "red", "nir"], start=1):
+            dst.set_band_description(band, name)
+
+
+def process_scene_masks(
+    data_dir: str | Path,
+    save_dir: str | Path,
+    overwrite: bool = False,
+) -> None:
+    """Apply the udm2 cloud mask to every downloaded SR scene, per year.
+
+    Reads the ``<data_dir>/<year>/`` scene downloads and writes masked copies
+    to ``<save_dir>/<year>/<scene_id>_masked.tif`` — the layout
+    ``process_scene_composites`` expects.
+
+    Parameters
+    ----------
+    data_dir : str | Path
+        Directory of per-year scene downloads (from ``scenes.order_scenes``).
+    save_dir : str | Path
+        Directory to write the masked scenes.
+    overwrite : bool, optional
+        Whether to overwrite existing masked files. Default False.
+    """
+    save_dir = Path(save_dir)
+
+    year_dirs = sorted(
+        d for d in Path(data_dir).iterdir() if d.is_dir() and d.name.isdigit()
+    )
+    for year_dir in year_dirs:
+        scene_pairs = find_scene_files(year_dir)
+        out_year = save_dir / year_dir.name
+        out_year.mkdir(parents=True, exist_ok=True)
+        for sr_path, udm2_path in tqdm(scene_pairs, desc=f"Masking {year_dir.name}"):
+            scene_id = sr_path.name.split("_3B_")[0]
+            mask_scene(
+                sr_path,
+                udm2_path,
+                out_year / f"{scene_id}_masked.tif",
+                overwrite=overwrite,
+            )
+
+    return None
+
+
 def create_scene_composite(
-    scene_pairs: list[tuple[Path, Path]],
+    masked_paths: list[Path],
     output_file: str | Path,
     region: dict,
     resolution: float = 3.0,
@@ -526,17 +625,17 @@ def create_scene_composite(
     overwrite: bool = False,
     blocksize: int = 1024,
 ) -> None:
-    """Create a cloud-masked temporal composite from PSScene SR images.
+    """Composite pre-masked PSScene SR images into one image over the AOI.
 
-    Every scene is masked to its udm2 "clear" band (band 1) and warped onto a
-    common UTM grid over the AOI, then aggregated per pixel with a
-    nodata-aware mean/median. The composite is computed in ``blocksize``
+    Each masked scene (clouds already set to nodata 0 by ``mask_scene``) is
+    warped onto a common UTM grid over the AOI, then aggregated per pixel with
+    a nodata-aware mean/median. The composite is computed in ``blocksize``
     windows so memory stays bounded regardless of AOI size.
 
     Parameters
     ----------
-    scene_pairs : list[tuple[Path, Path]]
-        (sr_path, udm2_path) pairs from ``find_scene_files``.
+    masked_paths : list[Path]
+        Masked SR scenes (``*_masked.tif`` from ``process_scene_masks``).
     output_file : str | Path
         Output GeoTIFF path (4-band B, G, R, NIR uint16, nodata 0).
     region : dict
@@ -554,7 +653,7 @@ def create_scene_composite(
     if output_file.exists() and not overwrite:
         return
 
-    if not scene_pairs:
+    if not masked_paths:
         print(f"WARNING: no scenes found for {output_file.name}. Skipping.")
         return
 
@@ -582,17 +681,11 @@ def create_scene_composite(
 
     with contextlib.ExitStack() as ctx:
         vrts = []
-        for sr_path, udm2_path in scene_pairs:
-            sr = ctx.enter_context(rasterio.open(sr_path))
-            udm2 = ctx.enter_context(rasterio.open(udm2_path))
+        for path in masked_paths:
+            src = ctx.enter_context(rasterio.open(path))
             vrts.append(
-                (
-                    ctx.enter_context(
-                        WarpedVRT(sr, resampling=Resampling.bilinear, **grid)
-                    ),
-                    ctx.enter_context(
-                        WarpedVRT(udm2, resampling=Resampling.nearest, **grid)
-                    ),
+                ctx.enter_context(
+                    WarpedVRT(src, resampling=Resampling.bilinear, **grid)
                 )
             )
 
@@ -615,13 +708,11 @@ def create_scene_composite(
                     )
 
                     stack = []
-                    for sr_vrt, udm2_vrt in vrts:
-                        arr = sr_vrt.read(indexes=[1, 2, 3, 4], window=window).astype(
+                    for vrt in vrts:
+                        arr = vrt.read(indexes=[1, 2, 3, 4], window=window).astype(
                             "float32"
                         )
-                        clear = udm2_vrt.read(1, window=window) == 1
-                        arr[:, ~clear] = np.nan
-                        # SR nodata (blackfill / outside the clipped footprint)
+                        # nodata (masked clouds, blackfill, outside footprint)
                         arr[arr == 0] = np.nan
                         stack.append(arr)
 
@@ -638,7 +729,7 @@ def create_scene_composite(
 
 
 def process_scene_composites(
-    data_dir: str | Path,
+    masked_dir: str | Path,
     save_dir: str | Path,
     region: dict,
     resolution: float = 3.0,
@@ -646,12 +737,12 @@ def process_scene_composites(
     overwrite: bool = False,
     out_prefix: str = "planet_ps_composite",
 ) -> None:
-    """Create one PSScene composite per year directory under ``data_dir``.
+    """Create one PSScene composite per year of masked scenes.
 
     Parameters
     ----------
-    data_dir : str | Path
-        Directory of per-year scene downloads (from ``scenes.order_scenes``).
+    masked_dir : str | Path
+        Directory of per-year masked scenes (from ``process_scene_masks``).
     save_dir : str | Path
         Directory to write ``<out_prefix>_<year>.tif`` files.
     region : dict
@@ -665,13 +756,13 @@ def process_scene_composites(
     save_dir.mkdir(parents=True, exist_ok=True)
 
     year_dirs = sorted(
-        d for d in Path(data_dir).iterdir() if d.is_dir() and d.name.isdigit()
+        d for d in Path(masked_dir).iterdir() if d.is_dir() and d.name.isdigit()
     )
     for year_dir in year_dirs:
-        scene_pairs = find_scene_files(year_dir)
-        print(f"{year_dir.name}: {len(scene_pairs)} scene(s)")
+        masked_paths = sorted(year_dir.glob("*_masked.tif"))
+        print(f"{year_dir.name}: {len(masked_paths)} scene(s)")
         create_scene_composite(
-            scene_pairs,
+            masked_paths,
             save_dir / f"{out_prefix}_{year_dir.name}.tif",
             region,
             resolution=resolution,
