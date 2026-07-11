@@ -18,7 +18,13 @@ training**.
     `basemaps_client.py`. Uses `https://api.planet.com/basemaps/v1`, auth = `(api_key, "")`.
   - `cli.py` — `planet-download download-all` CLI.
   - `composites.py` — mean/median temporal composites (COG output), resampling,
-    merging.
+    merging. Also the PSScene compositing path (`find_scene_files`,
+    `create_scene_composite`, `process_scene_composites`): udm2 cloud-masked,
+    windowed nanmedian/nanmean onto a common 3 m UTM grid over the AOI.
+  - `scenes.py` — PlanetScope (PSScene) search/selection/ordering via the
+    official `planet` SDK v3: Data API search, top-K-clearest-per-month
+    selection (the quota guard), Orders API clipped orders
+    (`analytic_sr_udm2` bundle, optional Sentinel-2 harmonization).
 - `main/download_and_process.py` — download/composite CLI. Commands:
   `download` (buffer CSV label points), `download-aoi` (quads overlapping a
   GeoJSON polygon AOI over a year range), `composite` (mean/median temporal
@@ -27,6 +33,11 @@ training**.
   and `grid-mosaic` — the full download→composite→resample→merge pipeline that
   reproduces `examples/create_composites_grid.ipynb` (e.g. the Siaya grid 5 m
   RGB-uint8 mosaics in `data/labels/composites_median_grid_mosaic`).
+  PlanetScope commands: `ps-search` (free dry run: scene counts + billed-km²
+  preview), `ps-download` (clipped Orders API orders per year — **consumes
+  quota**; confirms interactively unless `--yes`), `ps-composite` (yearly
+  udm2-masked median composites, 4-band B/G/R/NIR uint16 at 3 m in the AOI's
+  UTM zone).
 - `scripts/`
   - `patchify.py` — extract 512×512 RGB patches from the **raw per-quarter**
     quads → uniform shard folders + `manifest.csv` (see below).
@@ -81,10 +92,17 @@ training**.
 - **Basemaps are not perfectly cloud-free.** Residual clouds/haze remain. Reduce
   them with a temporal **median composite** across q1/q2/q3 (`composites.py`),
   not the alpha band.
-- **The Planet API key no longer has a Basemaps/Mosaics entitlement.** The
-  Basemaps API still authenticates (HTTP 200) but returns empty series/mosaics.
-  Data API (scenes) still works. The data is already downloaded; re-downloads
-  (incl. the 5 corrupt tiles) are not currently possible.
+- **API entitlement was restored 2026-07-06** (educational plan, active to
+  2027-04-30): 500,000 km² download quota, **"premium" billing style — every
+  clipped scene bills its actual area**. So "all scenes over a year" for a
+  county-sized AOI can eat the whole quota; the `ps-*` commands guard this with
+  top-K-clearest-per-month selection (`--per-month`, default 3) and a billed-km²
+  preview (`ps-search`) before any order is placed.
+- **Don't use Planet's Orders API `composite` tool for PS composites** — it's
+  last-pixel-wins in the order the ids are listed, ignores udm2, and has no
+  median. We clip server-side and build udm2-masked medians locally instead
+  (udm2 band 1 = clear; bands 3/4/6 = shadow/haze/cloud; the alpha-band caveat
+  above is a basemaps problem — PSScene has a real cloud mask).
 - **Sherlock login nodes have a low open-file limit** → `OSError: [Errno 24] Too
   many open files` on heavy geospatial imports. Run on a **compute node**
   (`sh_dev`/sbatch), not the login node.

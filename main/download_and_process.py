@@ -11,7 +11,14 @@ from planet_download.composites import (
     merge_composites_by_date,
     parse_planet_filesystem,
     process_composites_parallel,
+    process_scene_composites,
     resample_resolution_parallel,
+)
+from planet_download.scenes import (
+    estimate_billed_area,
+    order_scenes,
+    search_scenes,
+    select_scenes,
 )
 
 
@@ -566,6 +573,244 @@ def grid_mosaic(
     merge_composites_by_date(path_to_composites=resampled_dir, save_path=mosaic_dir)
 
     print(f"Done. Mosaics written to {mosaic_dir}")
+
+
+def _search_and_report(
+    region: dict,
+    start_year: int,
+    end_year: int,
+    max_cloud: float,
+    min_clear: float,
+    per_month: int,
+):
+    """Search PSScene items, apply the per-month cap, and print the quota cost.
+
+    Shared by ps-search (dry run) and ps-download so both always report the
+    scene counts and the estimated billed area before any quota is spent.
+    """
+    print(f"Searching PSScene {start_year}-{end_year} over the AOI...")
+    scenes = search_scenes(
+        region, start_year, end_year, max_cloud=max_cloud, min_clear=min_clear
+    )
+    selected = select_scenes(scenes, per_month=per_month)
+
+    print(
+        f"Found {len(scenes)} scenes; selected {len(selected)} "
+        f"(top {per_month or 'all'} clearest per month)."
+    )
+    if not selected.empty:
+        counts = selected.groupby("year")["id"].count()
+        for year, n in counts.items():
+            print(f"  {year}: {n} scenes")
+        print(
+            f"Estimated billed area: {estimate_billed_area(selected, region):,.0f} km²"
+        )
+
+    return selected
+
+
+@cli.command("ps-search")
+@click.option(
+    "--geojson",
+    required=True,
+    type=click.Path(exists=True),
+    help="Path to a GeoJSON polygon AOI.",
+)
+@click.option("--start-year", required=True, type=int)
+@click.option("--end-year", required=True, type=int)
+@click.option("--max-cloud", default=0.2, show_default=True, type=float)
+@click.option("--min-clear", default=90.0, show_default=True, type=float)
+@click.option(
+    "--per-month",
+    default=3,
+    show_default=True,
+    type=int,
+    help="Keep only the K clearest scenes per month (0 = keep all).",
+)
+@click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
+@click.option("--filter-val", default=None, help="Value to match in --filter-col.")
+@click.option(
+    "--save-footprints",
+    default=None,
+    type=click.Path(),
+    help="Optional path to save the selected scene footprints as GeoJSON.",
+)
+def ps_search(
+    geojson: str,
+    start_year: int,
+    end_year: int,
+    max_cloud: float,
+    min_clear: float,
+    per_month: int,
+    filter_col: str | None,
+    filter_val: str | None,
+    save_footprints: str | None,
+) -> None:
+    """Dry run: search PlanetScope scenes and preview the quota cost.
+
+    Searching is free — no quota is consumed until `ps-download` places an
+    order. Quota is billed per clipped scene, so use this to check the scene
+    counts and billed km² before downloading.
+    """
+    region = _load_aoi_region(geojson, filter_col, filter_val)
+    selected = _search_and_report(
+        region, start_year, end_year, max_cloud, min_clear, per_month
+    )
+
+    if save_footprints and not selected.empty:
+        selected.to_file(save_footprints, driver="GeoJSON")
+        print(f"Footprints saved to {save_footprints}")
+
+
+@cli.command("ps-download")
+@click.option(
+    "--geojson",
+    required=True,
+    type=click.Path(exists=True),
+    help="Path to a GeoJSON polygon AOI.",
+)
+@click.option(
+    "--save-dir",
+    required=True,
+    type=click.Path(),
+    help="Directory to save the downloaded scenes (per-year subfolders).",
+)
+@click.option("--start-year", required=True, type=int)
+@click.option("--end-year", required=True, type=int)
+@click.option("--max-cloud", default=0.2, show_default=True, type=float)
+@click.option("--min-clear", default=90.0, show_default=True, type=float)
+@click.option(
+    "--per-month",
+    default=3,
+    show_default=True,
+    type=int,
+    help="Keep only the K clearest scenes per month (0 = keep all).",
+)
+@click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
+@click.option("--filter-val", default=None, help="Value to match in --filter-col.")
+@click.option(
+    "--harmonize/--no-harmonize",
+    default=True,
+    show_default=True,
+    help="Apply Planet's Sentinel-2 harmonization (temporal consistency).",
+)
+@click.option(
+    "--order-name",
+    default="planet_download_ps",
+    show_default=True,
+    help="Order name prefix shown in the Planet dashboard.",
+)
+@click.option(
+    "--yes",
+    is_flag=True,
+    default=False,
+    help="Skip the quota confirmation prompt.",
+)
+def ps_download(
+    geojson: str,
+    save_dir: str,
+    start_year: int,
+    end_year: int,
+    max_cloud: float,
+    min_clear: float,
+    per_month: int,
+    filter_col: str | None,
+    filter_val: str | None,
+    harmonize: bool,
+    order_name: str,
+    yes: bool,
+) -> None:
+    """Download PlanetScope scenes clipped to an AOI via the Orders API.
+
+    Scenes are ordered with the SR + udm2 bundle (fallback TOA) and a clip
+    tool, one order per year, and land in {save-dir}/{year}/{order_id}/ —
+    the layout `ps-composite` expects. NOTE: this consumes download quota.
+    """
+    region = _load_aoi_region(geojson, filter_col, filter_val)
+    selected = _search_and_report(
+        region, start_year, end_year, max_cloud, min_clear, per_month
+    )
+
+    if selected.empty:
+        print("Nothing to download.")
+        return
+
+    if not yes:
+        click.confirm(
+            "Placing these orders will consume the billed area above. Continue?",
+            abort=True,
+        )
+
+    os.makedirs(save_dir, exist_ok=True)
+    selected.to_file(
+        os.path.join(save_dir, "ps_selected_scenes.geojson"), driver="GeoJSON"
+    )
+
+    order_scenes(selected, region, save_dir, order_name=order_name, harmonize=harmonize)
+    print(f"Done. Scenes downloaded to {save_dir}")
+
+
+@cli.command("ps-composite")
+@click.option(
+    "--data-dir",
+    required=True,
+    type=click.Path(exists=True),
+    help="Directory of per-year scene downloads (from ps-download).",
+)
+@click.option(
+    "--output-dir",
+    required=True,
+    type=click.Path(),
+    help="Directory to write the per-year composites.",
+)
+@click.option(
+    "--geojson",
+    required=True,
+    type=click.Path(exists=True),
+    help="Path to the GeoJSON polygon AOI (defines the output grid).",
+)
+@click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
+@click.option("--filter-val", default=None, help="Value to match in --filter-col.")
+@click.option(
+    "--operation",
+    type=click.Choice(["mean", "median"], case_sensitive=False),
+    default="median",
+    show_default=True,
+)
+@click.option(
+    "--target-resolution",
+    default=3.0,
+    show_default=True,
+    type=float,
+    help="Output pixel size in meters (3 m = PSScene native).",
+)
+@click.option("--overwrite", is_flag=True, default=False)
+def ps_composite(
+    data_dir: str,
+    output_dir: str,
+    geojson: str,
+    filter_col: str | None,
+    filter_val: str | None,
+    operation: str,
+    target_resolution: float,
+    overwrite: bool,
+) -> None:
+    """Build cloud-masked yearly composites from downloaded PlanetScope scenes.
+
+    Each scene is masked with its udm2 clear band, warped onto a common UTM
+    grid over the AOI, and aggregated per pixel — one 4-band (B, G, R, NIR)
+    uint16 GeoTIFF per year.
+    """
+    region = _load_aoi_region(geojson, filter_col, filter_val)
+    process_scene_composites(
+        data_dir=data_dir,
+        save_dir=output_dir,
+        region=region,
+        resolution=target_resolution,
+        operation=operation.lower(),
+        overwrite=overwrite,
+    )
+    print(f"Done. Composites written to {output_dir}")
 
 
 if __name__ == "__main__":

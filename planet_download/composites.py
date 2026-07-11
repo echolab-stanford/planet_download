@@ -1,14 +1,21 @@
 import concurrent.futures
+import contextlib
+import math
 import warnings
 from pathlib import Path
 
+import geopandas as gpd
 import numpy as np
 import rasterio
 from rasterio.enums import Resampling
 from rasterio.io import MemoryFile
 from rasterio.merge import merge
+from rasterio.transform import from_origin
+from rasterio.vrt import WarpedVRT
+from rasterio.windows import Window
 from rio_cogeo.cogeo import cog_translate
 from rio_cogeo.profiles import cog_profiles
+from shapely.geometry import shape
 from tqdm import tqdm
 
 
@@ -454,4 +461,222 @@ def merge_composites_by_date(
         finally:
             for src in tiff_files_open:
                 src.close()
+    return None
+
+
+def find_scene_files(year_dir: str | Path) -> list[tuple[Path, Path]]:
+    """Pair downloaded PSScene SR images with their udm2 masks for one year.
+
+    Order deliveries are nested (``<year>/<order_id>/PSScene/...``), and tool
+    chains suffix the filenames (e.g. ``_harmonized_clip``), so files are
+    paired by their scene id: everything before the ``_3B_`` marker.
+
+    Parameters
+    ----------
+    year_dir : str | Path
+        A per-year directory written by ``scenes.order_scenes``.
+
+    Returns
+    -------
+    list[tuple[Path, Path]]
+        (sr_path, udm2_path) per scene that has both files.
+    """
+    images: dict[str, Path] = {}
+    masks: dict[str, Path] = {}
+
+    for path in Path(year_dir).rglob("*_3B_*.tif"):
+        scene_id = path.name.split("_3B_")[0]
+        if "udm2" in path.name:
+            masks[scene_id] = path
+        elif "AnalyticMS" in path.name:
+            images[scene_id] = path
+
+    missing = set(images) ^ set(masks)
+    if missing:
+        print(f"WARNING: {len(missing)} scene(s) missing an SR or udm2 file, skipped.")
+
+    return [(images[sid], masks[sid]) for sid in sorted(set(images) & set(masks))]
+
+
+def _aoi_grid(region: dict, resolution: float) -> dict:
+    """Build the target grid (rasterio profile pieces) for an AOI.
+
+    The grid covers the AOI bounds in its estimated UTM zone at the requested
+    resolution. Scenes are warped onto this grid so they can be stacked even
+    though every PSScene footprint (and possibly UTM zone) differs.
+    """
+    aoi = gpd.GeoSeries([shape(region)], crs="EPSG:4326")
+    crs = aoi.estimate_utm_crs()
+    minx, miny, maxx, maxy = aoi.to_crs(crs).total_bounds
+
+    return {
+        "crs": rasterio.crs.CRS.from_user_input(crs),
+        "transform": from_origin(minx, maxy, resolution, resolution),
+        "width": math.ceil((maxx - minx) / resolution),
+        "height": math.ceil((maxy - miny) / resolution),
+    }
+
+
+def create_scene_composite(
+    scene_pairs: list[tuple[Path, Path]],
+    output_file: str | Path,
+    region: dict,
+    resolution: float = 3.0,
+    operation: str = "median",
+    overwrite: bool = False,
+    blocksize: int = 1024,
+) -> None:
+    """Create a cloud-masked temporal composite from PSScene SR images.
+
+    Every scene is masked to its udm2 "clear" band (band 1) and warped onto a
+    common UTM grid over the AOI, then aggregated per pixel with a
+    nodata-aware mean/median. The composite is computed in ``blocksize``
+    windows so memory stays bounded regardless of AOI size.
+
+    Parameters
+    ----------
+    scene_pairs : list[tuple[Path, Path]]
+        (sr_path, udm2_path) pairs from ``find_scene_files``.
+    output_file : str | Path
+        Output GeoTIFF path (4-band B, G, R, NIR uint16, nodata 0).
+    region : dict
+        GeoJSON geometry (WGS84) of the AOI defining the output grid.
+    resolution : float, optional
+        Output pixel size in meters. Default 3.0 (PSScene native).
+    operation : str, optional
+        "mean" or "median". Default "median".
+    overwrite : bool, optional
+        Whether to overwrite an existing output file. Default False.
+    blocksize : int, optional
+        Processing window size in pixels. Default 1024.
+    """
+    output_file = Path(output_file)
+    if output_file.exists() and not overwrite:
+        return
+
+    if not scene_pairs:
+        print(f"WARNING: no scenes found for {output_file.name}. Skipping.")
+        return
+
+    if operation == "mean":
+        aggregate = np.nanmean
+    elif operation == "median":
+        aggregate = np.nanmedian
+    else:
+        raise ValueError(
+            f"Operation must be either 'mean' or 'median', not {operation}"
+        )
+
+    grid = _aoi_grid(region, resolution)
+    profile = {
+        "driver": "GTiff",
+        "count": 4,
+        "dtype": "uint16",
+        "nodata": 0,
+        "tiled": True,
+        "blockxsize": 512,
+        "blockysize": 512,
+        "compress": "deflate",
+        **grid,
+    }
+
+    with contextlib.ExitStack() as ctx:
+        vrts = []
+        for sr_path, udm2_path in scene_pairs:
+            sr = ctx.enter_context(rasterio.open(sr_path))
+            udm2 = ctx.enter_context(rasterio.open(udm2_path))
+            vrts.append(
+                (
+                    ctx.enter_context(
+                        WarpedVRT(sr, resampling=Resampling.bilinear, **grid)
+                    ),
+                    ctx.enter_context(
+                        WarpedVRT(udm2, resampling=Resampling.nearest, **grid)
+                    ),
+                )
+            )
+
+        dst = ctx.enter_context(rasterio.open(output_file, "w", **profile))
+        for band, name in enumerate(["blue", "green", "red", "nir"], start=1):
+            dst.set_band_description(band, name)
+
+        row_offs = range(0, grid["height"], blocksize)
+        col_offs = range(0, grid["width"], blocksize)
+        n_windows = len(row_offs) * len(col_offs)
+
+        with tqdm(total=n_windows, desc=f"Compositing {output_file.name}") as pbar:
+            for row_off in row_offs:
+                for col_off in col_offs:
+                    window = Window(
+                        col_off,
+                        row_off,
+                        min(blocksize, grid["width"] - col_off),
+                        min(blocksize, grid["height"] - row_off),
+                    )
+
+                    stack = []
+                    for sr_vrt, udm2_vrt in vrts:
+                        arr = sr_vrt.read(indexes=[1, 2, 3, 4], window=window).astype(
+                            "float32"
+                        )
+                        clear = udm2_vrt.read(1, window=window) == 1
+                        arr[:, ~clear] = np.nan
+                        # SR nodata (blackfill / outside the clipped footprint)
+                        arr[arr == 0] = np.nan
+                        stack.append(arr)
+
+                    with warnings.catch_warnings():
+                        # All-NaN pixels (no clear view) are expected; they
+                        # become nodata below.
+                        warnings.simplefilter("ignore", RuntimeWarning)
+                        composite = aggregate(np.stack(stack), axis=0)
+
+                    composite = np.nan_to_num(composite)
+                    composite = np.clip(np.rint(composite), 0, 65535)
+                    dst.write(composite.astype("uint16"), window=window)
+                    pbar.update(1)
+
+
+def process_scene_composites(
+    data_dir: str | Path,
+    save_dir: str | Path,
+    region: dict,
+    resolution: float = 3.0,
+    operation: str = "median",
+    overwrite: bool = False,
+    out_prefix: str = "planet_ps_composite",
+) -> None:
+    """Create one PSScene composite per year directory under ``data_dir``.
+
+    Parameters
+    ----------
+    data_dir : str | Path
+        Directory of per-year scene downloads (from ``scenes.order_scenes``).
+    save_dir : str | Path
+        Directory to write ``<out_prefix>_<year>.tif`` files.
+    region : dict
+        GeoJSON geometry (WGS84) of the AOI defining the output grid.
+    resolution, operation, overwrite :
+        Passed through to ``create_scene_composite``.
+    out_prefix : str, optional
+        Output filename prefix. Default "planet_ps_composite".
+    """
+    save_dir = Path(save_dir)
+    save_dir.mkdir(parents=True, exist_ok=True)
+
+    year_dirs = sorted(
+        d for d in Path(data_dir).iterdir() if d.is_dir() and d.name.isdigit()
+    )
+    for year_dir in year_dirs:
+        scene_pairs = find_scene_files(year_dir)
+        print(f"{year_dir.name}: {len(scene_pairs)} scene(s)")
+        create_scene_composite(
+            scene_pairs,
+            save_dir / f"{out_prefix}_{year_dir.name}.tif",
+            region,
+            resolution=resolution,
+            operation=operation,
+            overwrite=overwrite,
+        )
+
     return None
