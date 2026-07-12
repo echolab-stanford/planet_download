@@ -161,6 +161,48 @@ def select_scenes(scenes: gpd.GeoDataFrame, per_month: int = 3) -> gpd.GeoDataFr
     )
 
 
+def filter_aoi_coverage(
+    scenes: gpd.GeoDataFrame, region: dict, min_pct: float
+) -> gpd.GeoDataFrame:
+    """Drop scenes whose footprint covers less than ``min_pct`` of the AOI.
+
+    A single PlanetScope scene only covers a few percent of a county-sized AOI,
+    so this is a sliver filter: it removes scenes that merely clip an edge (a
+    per-month slot better spent on a full-swath scene), not a "most of the AOI"
+    filter.
+
+    Parameters
+    ----------
+    scenes : gpd.GeoDataFrame
+        Output of ``search_scenes``.
+    region : dict
+        GeoJSON geometry (WGS84) of the AOI.
+    min_pct : float
+        Minimum footprint ∩ AOI area as a percentage of the AOI. 0 keeps all.
+    """
+    if min_pct <= 0 or scenes.empty:
+        return scenes
+
+    aoi = gpd.GeoSeries([shape(region)], crs="EPSG:4326")
+    utm = scenes.estimate_utm_crs()
+    aoi_geom = aoi.to_crs(utm).iloc[0]
+    clip = scenes.to_crs(utm).intersection(aoi_geom)
+    pct = clip.area / aoi_geom.area * 100
+    return scenes[pct.values >= min_pct]
+
+
+def downloaded_scene_ids(save_dir: str | Path) -> set[str]:
+    """Scene ids already downloaded under ``save_dir`` (from a prior order).
+
+    Lets ``ps-download`` skip re-ordering scenes already on disk, so growing a
+    selection (e.g. 15 → 30 per month) only spends quota on the new scenes.
+    """
+    ids = set()
+    for path in Path(save_dir).rglob("*_3B_*.tif"):
+        ids.add(path.name.split("_3B_")[0])
+    return ids
+
+
 def sr_downloadable(scene_ids: list[str], client: Planet | None = None) -> set[str]:
     """Return the subset of scene ids whose SR asset we can download.
 

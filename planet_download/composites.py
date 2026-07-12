@@ -1,5 +1,4 @@
 import concurrent.futures
-import contextlib
 import math
 import warnings
 from pathlib import Path
@@ -617,6 +616,73 @@ def process_scene_masks(
     return None
 
 
+# Per-worker state for parallel compositing (set in each ProcessPoolExecutor
+# process by the initializer; also used in-process for the serial path).
+_TILE_CTX: dict = {}
+
+
+def _scene_grid_window(src, grid) -> tuple[int, int, int, int]:
+    """The (row0, row1, col0, col1) a scene's footprint spans on the grid."""
+    bounds = transform_bounds(src.crs, grid["crs"], *src.bounds)
+    win = from_bounds(*bounds, transform=grid["transform"])
+    return (
+        max(0, math.floor(win.row_off)),
+        min(grid["height"], math.ceil(win.row_off + win.height)),
+        max(0, math.floor(win.col_off)),
+        min(grid["width"], math.ceil(win.col_off + win.width)),
+    )
+
+
+def _init_tile_worker(masked_paths, grid, operation) -> None:
+    srcs = [rasterio.open(p) for p in masked_paths]
+    _TILE_CTX["srcs"] = srcs
+    _TILE_CTX["vrts"] = [
+        WarpedVRT(s, resampling=Resampling.bilinear, **grid) for s in srcs
+    ]
+    _TILE_CTX["windows"] = [_scene_grid_window(s, grid) for s in srcs]
+    _TILE_CTX["aggregate"] = np.nanmean if operation == "mean" else np.nanmedian
+
+
+def _close_tile_worker() -> None:
+    for vrt in _TILE_CTX.get("vrts", []):
+        vrt.close()
+    for src in _TILE_CTX.get("srcs", []):
+        src.close()
+    _TILE_CTX.clear()
+
+
+def _composite_tile(task):
+    """Aggregate one output tile; returns (row_off, col_off, array) or None."""
+    row_off, col_off, bh, bw = task
+    vrts = _TILE_CTX["vrts"]
+    windows = _TILE_CTX["windows"]
+
+    # Only the scenes whose footprint overlaps this tile.
+    overlap = [
+        vrts[i]
+        for i, (r0, r1, c0, c1) in enumerate(windows)
+        if r0 < row_off + bh and r1 > row_off and c0 < col_off + bw and c1 > col_off
+    ]
+    if not overlap:
+        return None
+
+    window = Window(col_off, row_off, bw, bh)
+    stack = []
+    for vrt in overlap:
+        arr = vrt.read(indexes=[1, 2, 3, 4], window=window).astype("float32")
+        # nodata (masked clouds, blackfill, outside footprint)
+        arr[arr == 0] = np.nan
+        stack.append(arr)
+
+    with warnings.catch_warnings():
+        # All-NaN pixels (no clear view) are expected; they become nodata below.
+        warnings.simplefilter("ignore", RuntimeWarning)
+        composite = _TILE_CTX["aggregate"](np.stack(stack), axis=0)
+
+    composite = np.clip(np.rint(np.nan_to_num(composite)), 0, 65535).astype("uint16")
+    return (row_off, col_off, composite)
+
+
 def create_scene_composite(
     masked_paths: list[Path],
     output_file: str | Path,
@@ -625,6 +691,7 @@ def create_scene_composite(
     operation: str = "median",
     overwrite: bool = False,
     blocksize: int = 1024,
+    nthreads: int = 1,
 ) -> None:
     """Composite pre-masked PSScene SR images into one image over the AOI.
 
@@ -649,6 +716,8 @@ def create_scene_composite(
         Whether to overwrite an existing output file. Default False.
     blocksize : int, optional
         Processing window size in pixels. Default 1024.
+    nthreads : int, optional
+        Worker processes for the (independent) tiles. Default 1 (serial).
     """
     output_file = Path(output_file)
     if output_file.exists() and not overwrite:
@@ -658,11 +727,7 @@ def create_scene_composite(
         print(f"WARNING: no scenes found for {output_file.name}. Skipping.")
         return
 
-    if operation == "mean":
-        aggregate = np.nanmean
-    elif operation == "median":
-        aggregate = np.nanmedian
-    else:
+    if operation not in ("mean", "median"):
         raise ValueError(
             f"Operation must be either 'mean' or 'median', not {operation}"
         )
@@ -680,78 +745,52 @@ def create_scene_composite(
         **grid,
     }
 
-    with contextlib.ExitStack() as ctx:
-        # Open each scene as a VRT on the target grid, and record the grid
-        # pixel window its footprint spans. Each PSScene covers only a few
-        # percent of the AOI, so per tile we read just the handful of scenes
-        # that overlap it instead of all of them.
-        vrts = []
-        scene_windows = []
-        for path in masked_paths:
-            src = ctx.enter_context(rasterio.open(path))
-            bounds = transform_bounds(src.crs, grid["crs"], *src.bounds)
-            win = from_bounds(*bounds, transform=grid["transform"])
-            scene_windows.append(
-                (
-                    max(0, math.floor(win.row_off)),
-                    min(grid["height"], math.ceil(win.row_off + win.height)),
-                    max(0, math.floor(win.col_off)),
-                    min(grid["width"], math.ceil(win.col_off + win.width)),
-                )
-            )
-            vrts.append(
-                ctx.enter_context(
-                    WarpedVRT(src, resampling=Resampling.bilinear, **grid)
-                )
-            )
+    tasks = [
+        (
+            row_off,
+            col_off,
+            min(blocksize, grid["height"] - row_off),
+            min(blocksize, grid["width"] - col_off),
+        )
+        for row_off in range(0, grid["height"], blocksize)
+        for col_off in range(0, grid["width"], blocksize)
+    ]
 
-        dst = ctx.enter_context(rasterio.open(output_file, "w", **profile))
+    desc = f"Compositing {output_file.name}"
+    with rasterio.open(output_file, "w", **profile) as dst:
         for band, name in enumerate(["blue", "green", "red", "nir"], start=1):
             dst.set_band_description(band, name)
 
-        row_offs = range(0, grid["height"], blocksize)
-        col_offs = range(0, grid["width"], blocksize)
-        n_windows = len(row_offs) * len(col_offs)
+        def write(result):
+            if result is None:
+                return
+            row_off, col_off, comp = result
+            dst.write(
+                comp, window=Window(col_off, row_off, comp.shape[2], comp.shape[1])
+            )
 
-        with tqdm(total=n_windows, desc=f"Compositing {output_file.name}") as pbar:
-            for row_off in row_offs:
-                for col_off in col_offs:
-                    pbar.update(1)
-                    bh = min(blocksize, grid["height"] - row_off)
-                    bw = min(blocksize, grid["width"] - col_off)
-
-                    # Scenes whose footprint overlaps this tile.
-                    overlap = [
-                        vrts[i]
-                        for i, (r0, r1, c0, c1) in enumerate(scene_windows)
-                        if r0 < row_off + bh
-                        and r1 > row_off
-                        and c0 < col_off + bw
-                        and c1 > col_off
-                    ]
-                    if not overlap:
-                        # No coverage here; tile stays nodata (0).
-                        continue
-
-                    window = Window(col_off, row_off, bw, bh)
-                    stack = []
-                    for vrt in overlap:
-                        arr = vrt.read(indexes=[1, 2, 3, 4], window=window).astype(
-                            "float32"
-                        )
-                        # nodata (masked clouds, blackfill, outside footprint)
-                        arr[arr == 0] = np.nan
-                        stack.append(arr)
-
-                    with warnings.catch_warnings():
-                        # All-NaN pixels (no clear view) are expected; they
-                        # become nodata below.
-                        warnings.simplefilter("ignore", RuntimeWarning)
-                        composite = aggregate(np.stack(stack), axis=0)
-
-                    composite = np.nan_to_num(composite)
-                    composite = np.clip(np.rint(composite), 0, 65535)
-                    dst.write(composite.astype("uint16"), window=window)
+        # Tiles are independent, so spread them across processes. Each worker
+        # opens its own VRTs (GDAL datasets are not safe to share across
+        # workers); the parent writes results as they arrive.
+        if nthreads <= 1:
+            _init_tile_worker(masked_paths, grid, operation)
+            try:
+                for task in tqdm(tasks, desc=desc):
+                    write(_composite_tile(task))
+            finally:
+                _close_tile_worker()
+        else:
+            with concurrent.futures.ProcessPoolExecutor(
+                max_workers=nthreads,
+                initializer=_init_tile_worker,
+                initargs=(masked_paths, grid, operation),
+            ) as executor:
+                for result in tqdm(
+                    executor.map(_composite_tile, tasks, chunksize=4),
+                    total=len(tasks),
+                    desc=desc,
+                ):
+                    write(result)
 
 
 def process_scene_composites(
@@ -762,6 +801,7 @@ def process_scene_composites(
     operation: str = "median",
     overwrite: bool = False,
     out_prefix: str = "planet_ps_composite",
+    nthreads: int = 1,
 ) -> None:
     """Create one PSScene composite per year of masked scenes.
 
@@ -773,7 +813,7 @@ def process_scene_composites(
         Directory to write ``<out_prefix>_<year>.tif`` files.
     region : dict
         GeoJSON geometry (WGS84) of the AOI defining the output grid.
-    resolution, operation, overwrite :
+    resolution, operation, overwrite, nthreads :
         Passed through to ``create_scene_composite``.
     out_prefix : str, optional
         Output filename prefix. Default "planet_ps_composite".
@@ -794,6 +834,7 @@ def process_scene_composites(
             resolution=resolution,
             operation=operation,
             overwrite=overwrite,
+            nthreads=nthreads,
         )
 
     return None

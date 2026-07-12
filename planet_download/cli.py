@@ -19,7 +19,9 @@ from planet_download.composites import (
     resample_resolution_parallel,
 )
 from planet_download.scenes import (
+    downloaded_scene_ids,
     estimate_billed_area,
+    filter_aoi_coverage,
     get_planet_client,
     order_scenes,
     search_scenes,
@@ -636,6 +638,7 @@ def _search_and_report(
     min_clear: float,
     per_month: int,
     client,
+    min_aoi_coverage: float = 0.0,
 ):
     """Search PSScene items, keep SR-available scenes, and print the quota cost.
 
@@ -654,6 +657,10 @@ def _search_and_report(
         client=client,
     )
 
+    # Drop scenes that only clip a sliver of the AOI (keeps per-month slots for
+    # full-swath scenes).
+    scenes = filter_aoi_coverage(scenes, region, min_aoi_coverage)
+
     # Verify SR download permission. Bound the (per-scene) checks to a pool of
     # the clearest candidates when a per-month cap is in effect.
     candidates = scenes if per_month <= 0 else select_scenes(scenes, per_month * 4)
@@ -661,8 +668,9 @@ def _search_and_report(
     sr_scenes = candidates[candidates["id"].isin(sr_ids)]
     selected = select_scenes(sr_scenes, per_month=per_month)
 
+    cov_note = f", >={min_aoi_coverage}% AOI" if min_aoi_coverage > 0 else ""
     print(
-        f"Found {len(scenes)} scenes; of {len(candidates)} candidates "
+        f"Found {len(scenes)} scenes{cov_note}; of {len(candidates)} candidates "
         f"{len(sr_scenes)} have downloadable SR; selected {len(selected)} "
         f"(top {per_month or 'all'} per month)."
     )
@@ -695,6 +703,13 @@ def _search_and_report(
     type=int,
     help="Keep only the K clearest scenes per month (0 = keep all).",
 )
+@click.option(
+    "--min-aoi-coverage",
+    default=0.0,
+    show_default=True,
+    type=float,
+    help="Drop scenes covering less than this %% of the AOI (sliver filter).",
+)
 @click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
 @click.option("--filter-val", default=None, help="Value to match in --filter-col.")
 @click.option(
@@ -710,6 +725,7 @@ def ps_search(
     max_cloud: float,
     min_clear: float,
     per_month: int,
+    min_aoi_coverage: float,
     filter_col: str | None,
     filter_val: str | None,
     save_footprints: str | None,
@@ -729,6 +745,7 @@ def ps_search(
         min_clear,
         per_month,
         get_planet_client(),
+        min_aoi_coverage=min_aoi_coverage,
     )
 
     if save_footprints and not selected.empty:
@@ -760,6 +777,13 @@ def ps_search(
     type=int,
     help="Keep only the K clearest scenes per month (0 = keep all).",
 )
+@click.option(
+    "--min-aoi-coverage",
+    default=0.0,
+    show_default=True,
+    type=float,
+    help="Drop scenes covering less than this %% of the AOI (sliver filter).",
+)
 @click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
 @click.option("--filter-val", default=None, help="Value to match in --filter-col.")
 @click.option(
@@ -788,6 +812,7 @@ def ps_download(
     max_cloud: float,
     min_clear: float,
     per_month: int,
+    min_aoi_coverage: float,
     filter_col: str | None,
     filter_val: str | None,
     harmonize: bool,
@@ -799,31 +824,56 @@ def ps_download(
     Scenes are ordered with the surface-reflectance + udm2 bundle and a clip
     tool, one order per year, and land in {save-dir}/{year}/{order_id}/ — the
     layout `ps-mask`/`ps-composite` expect. Only SR-licensed scenes are
-    ordered. NOTE: this consumes download quota.
+    ordered, and scenes already present under {save-dir} are skipped so growing
+    a selection only spends quota on the new scenes. NOTE: this consumes
+    download quota.
     """
     client = get_planet_client()
     region = _load_aoi_region(geojson, filter_col, filter_val)
     selected = _search_and_report(
-        region, start_year, end_year, max_cloud, min_clear, per_month, client
+        region,
+        start_year,
+        end_year,
+        max_cloud,
+        min_clear,
+        per_month,
+        client,
+        min_aoi_coverage=min_aoi_coverage,
     )
 
     if selected.empty:
         print("Nothing to download.")
         return
 
+    os.makedirs(save_dir, exist_ok=True)
+    # Record the full selection (used by ps-mask/ps-composite as the scene set).
+    selected.to_file(
+        os.path.join(save_dir, "ps_selected_scenes.geojson"), driver="GeoJSON"
+    )
+
+    # Only order scenes not already downloaded here (reuse a prior smaller run).
+    existing = downloaded_scene_ids(save_dir)
+    to_order = selected[~selected["id"].isin(existing)]
+    reused = len(selected) - len(to_order)
+    if reused:
+        print(f"{reused} of {len(selected)} scenes already downloaded — reusing them.")
+
+    if to_order.empty:
+        print("All selected scenes already on disk; nothing new to order.")
+        return
+
+    print(
+        f"Ordering {len(to_order)} new scenes; "
+        f"incremental billed area: {estimate_billed_area(to_order, region):,.0f} km²"
+    )
     if not yes:
         click.confirm(
             "Placing these orders will consume the billed area above. Continue?",
             abort=True,
         )
 
-    os.makedirs(save_dir, exist_ok=True)
-    selected.to_file(
-        os.path.join(save_dir, "ps_selected_scenes.geojson"), driver="GeoJSON"
-    )
-
     order_scenes(
-        selected,
+        to_order,
         region,
         save_dir,
         order_name=order_name,
@@ -892,6 +942,13 @@ def ps_mask(data_dir: str, output_dir: str, overwrite: bool) -> None:
     type=float,
     help="Output pixel size in meters (3 m = PSScene native).",
 )
+@click.option(
+    "--nthreads",
+    default=8,
+    show_default=True,
+    type=int,
+    help="Worker processes for the (independent) output tiles.",
+)
 @click.option("--overwrite", is_flag=True, default=False)
 def ps_composite(
     data_dir: str,
@@ -901,6 +958,7 @@ def ps_composite(
     filter_val: str | None,
     operation: str,
     target_resolution: float,
+    nthreads: int,
     overwrite: bool,
 ) -> None:
     """Build yearly composites from udm2-masked PlanetScope scenes.
@@ -917,6 +975,7 @@ def ps_composite(
         resolution=target_resolution,
         operation=operation.lower(),
         overwrite=overwrite,
+        nthreads=nthreads,
     )
     print(f"Done. Composites written to {output_dir}")
 
