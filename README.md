@@ -102,6 +102,7 @@ Then download, apply the udm2 cloud mask, and composite:
 planet-download ps-download \
   --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA \
   --start-year 2022 --end-year 2023 \
+  --per-month 30 --min-aoi-coverage 1.0 \
   --save-dir data/ps_scenes
 
 # Mask each scene with its udm2 clear band (cloud/shadow/haze/snow -> nodata)
@@ -110,13 +111,29 @@ planet-download ps-mask \
 
 planet-download ps-composite \
   --data-dir data/ps_masked --output-dir data/ps_composites \
-  --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA
+  --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA \
+  --nthreads 8
 ```
 
 Only surface-reflectance is retrieved (`ortho_analytic_4b_sr`); SR is not
 licensed for the whole archive (e.g. ~2/3 of 2017 PS2 scenes), so `ps-search`/
 `ps-download` verify SR availability per scene and drop the rest — otherwise the
 Orders API rejects the whole order.
+
+Useful flags for tuning cost, quality, and speed:
+
+- `--per-month N` — scenes kept per month (default 3). Higher N gives a smoother
+  median and more diversity, at proportionally more quota.
+- `--min-aoi-coverage PCT` — drop scenes whose footprint covers less than `PCT`
+  of the AOI (default 0 = keep all). A **sliver filter**: a single PlanetScope
+  scene only covers a few percent of a county-sized AOI, so this spends per-month
+  slots on full-swath scenes instead of edge clips. It does *not* reduce quota
+  (premium billing charges per km², and slivers are already cheap) — it improves
+  coverage/median quality per scene.
+- `ps-download` skips scenes already present under `--save-dir`, so raising
+  `--per-month` later only orders (and bills for) the new scenes.
+- `--nthreads N` on `ps-composite` — the composite runs one worker process per
+  output tile group; 8 is a good default on a multi-core box.
 
 > **Note on quota:** unlike basemap quads, PSScene downloads consume an
 > area-based quota — every clipped scene bills its intersection with the AOI.
