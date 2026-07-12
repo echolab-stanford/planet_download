@@ -1,5 +1,6 @@
 import concurrent.futures
 import math
+import threading
 import warnings
 from pathlib import Path
 
@@ -616,11 +617,6 @@ def process_scene_masks(
     return None
 
 
-# Per-worker state for parallel compositing (set in each ProcessPoolExecutor
-# process by the initializer; also used in-process for the serial path).
-_TILE_CTX: dict = {}
-
-
 def _scene_grid_window(src, grid) -> tuple[int, int, int, int]:
     """The (row0, row1, col0, col1) a scene's footprint spans on the grid."""
     bounds = transform_bounds(src.crs, grid["crs"], *src.bounds)
@@ -631,56 +627,6 @@ def _scene_grid_window(src, grid) -> tuple[int, int, int, int]:
         max(0, math.floor(win.col_off)),
         min(grid["width"], math.ceil(win.col_off + win.width)),
     )
-
-
-def _init_tile_worker(masked_paths, grid, operation) -> None:
-    srcs = [rasterio.open(p) for p in masked_paths]
-    _TILE_CTX["srcs"] = srcs
-    _TILE_CTX["vrts"] = [
-        WarpedVRT(s, resampling=Resampling.bilinear, **grid) for s in srcs
-    ]
-    _TILE_CTX["windows"] = [_scene_grid_window(s, grid) for s in srcs]
-    _TILE_CTX["aggregate"] = np.nanmean if operation == "mean" else np.nanmedian
-
-
-def _close_tile_worker() -> None:
-    for vrt in _TILE_CTX.get("vrts", []):
-        vrt.close()
-    for src in _TILE_CTX.get("srcs", []):
-        src.close()
-    _TILE_CTX.clear()
-
-
-def _composite_tile(task):
-    """Aggregate one output tile; returns (row_off, col_off, array) or None."""
-    row_off, col_off, bh, bw = task
-    vrts = _TILE_CTX["vrts"]
-    windows = _TILE_CTX["windows"]
-
-    # Only the scenes whose footprint overlaps this tile.
-    overlap = [
-        vrts[i]
-        for i, (r0, r1, c0, c1) in enumerate(windows)
-        if r0 < row_off + bh and r1 > row_off and c0 < col_off + bw and c1 > col_off
-    ]
-    if not overlap:
-        return None
-
-    window = Window(col_off, row_off, bw, bh)
-    stack = []
-    for vrt in overlap:
-        arr = vrt.read(indexes=[1, 2, 3, 4], window=window).astype("float32")
-        # nodata (masked clouds, blackfill, outside footprint)
-        arr[arr == 0] = np.nan
-        stack.append(arr)
-
-    with warnings.catch_warnings():
-        # All-NaN pixels (no clear view) are expected; they become nodata below.
-        warnings.simplefilter("ignore", RuntimeWarning)
-        composite = _TILE_CTX["aggregate"](np.stack(stack), axis=0)
-
-    composite = np.clip(np.rint(np.nan_to_num(composite)), 0, 65535).astype("uint16")
-    return (row_off, col_off, composite)
 
 
 def create_scene_composite(
@@ -717,7 +663,7 @@ def create_scene_composite(
     blocksize : int, optional
         Processing window size in pixels. Default 1024.
     nthreads : int, optional
-        Worker processes for the (independent) tiles. Default 1 (serial).
+        Worker threads for the (independent) tiles. Default 1 (serial).
     """
     output_file = Path(output_file)
     if output_file.exists() and not overwrite:
@@ -769,26 +715,62 @@ def create_scene_composite(
                 comp, window=Window(col_off, row_off, comp.shape[2], comp.shape[1])
             )
 
-        # Tiles are independent, so spread them across processes. Each worker
-        # opens its own VRTs (GDAL datasets are not safe to share across
-        # workers); the parent writes results as they arrive.
+        aggregate = np.nanmean if operation == "mean" else np.nanmedian
+
+        # Each thread opens its own VRTs (GDAL datasets are not safe to share
+        # across threads) and reuses them for all its tiles; rasterio releases
+        # the GIL during warp/read, so tiles compute in parallel. Only the main
+        # thread writes the output (GDAL writes are not thread-safe). Threads
+        # (not processes) avoid pickling/fork issues and the whole-run loss that
+        # a single crashed worker causes with a process pool.
+        local = threading.local()
+
+        def process_tile(task):
+            row_off, col_off, bh, bw = task
+            if not hasattr(local, "vrts"):
+                srcs = [rasterio.open(p) for p in masked_paths]
+                local.vrts = [
+                    WarpedVRT(s, resampling=Resampling.bilinear, **grid) for s in srcs
+                ]
+                local.windows = [_scene_grid_window(s, grid) for s in srcs]
+
+            # Only the scenes whose footprint overlaps this tile.
+            overlap = [
+                local.vrts[i]
+                for i, (r0, r1, c0, c1) in enumerate(local.windows)
+                if r0 < row_off + bh
+                and r1 > row_off
+                and c0 < col_off + bw
+                and c1 > col_off
+            ]
+            if not overlap:
+                return None
+
+            window = Window(col_off, row_off, bw, bh)
+            stack = []
+            for vrt in overlap:
+                arr = vrt.read(indexes=[1, 2, 3, 4], window=window).astype("float32")
+                # nodata (masked clouds, blackfill, outside footprint)
+                arr[arr == 0] = np.nan
+                stack.append(arr)
+
+            with warnings.catch_warnings():
+                # All-NaN pixels (no clear view) are expected -> nodata below.
+                warnings.simplefilter("ignore", RuntimeWarning)
+                composite = aggregate(np.stack(stack), axis=0)
+
+            composite = np.clip(np.rint(np.nan_to_num(composite)), 0, 65535)
+            return (row_off, col_off, composite.astype("uint16"))
+
         if nthreads <= 1:
-            _init_tile_worker(masked_paths, grid, operation)
-            try:
-                for task in tqdm(tasks, desc=desc):
-                    write(_composite_tile(task))
-            finally:
-                _close_tile_worker()
+            for task in tqdm(tasks, desc=desc):
+                write(process_tile(task))
         else:
-            with concurrent.futures.ProcessPoolExecutor(
-                max_workers=nthreads,
-                initializer=_init_tile_worker,
-                initargs=(masked_paths, grid, operation),
+            with concurrent.futures.ThreadPoolExecutor(
+                max_workers=nthreads
             ) as executor:
                 for result in tqdm(
-                    executor.map(_composite_tile, tasks, chunksize=4),
-                    total=len(tasks),
-                    desc=desc,
+                    executor.map(process_tile, tasks), total=len(tasks), desc=desc
                 ):
                     write(result)
 
