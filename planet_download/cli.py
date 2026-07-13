@@ -22,9 +22,11 @@ from planet_download.scenes import (
     downloaded_scene_ids,
     estimate_billed_area,
     filter_aoi_coverage,
+    filter_months,
     get_planet_client,
     order_scenes,
     search_scenes,
+    select_best_day,
     select_scenes,
     sr_downloadable,
 )
@@ -630,6 +632,13 @@ def grid_mosaic(
     print(f"Done. Mosaics written to {mosaic_dir}")
 
 
+def _parse_months(months: str | None) -> list[int] | None:
+    """Parse a "6,7,8" months string into [6, 7, 8]; None if empty."""
+    if not months:
+        return None
+    return [int(m) for m in months.split(",") if m.strip()]
+
+
 def _search_and_report(
     region: dict,
     start_year: int,
@@ -639,6 +648,8 @@ def _search_and_report(
     per_month: int,
     client,
     min_aoi_coverage: float = 0.0,
+    months: list[int] | None = None,
+    single_day: bool = False,
 ):
     """Search PSScene items, keep SR-available scenes, and print the quota cost.
 
@@ -657,27 +668,43 @@ def _search_and_report(
         client=client,
     )
 
+    if months:
+        scenes = filter_months(scenes, months)
     # Drop scenes that only clip a sliver of the AOI (keeps per-month slots for
-    # full-swath scenes).
-    scenes = filter_aoi_coverage(scenes, region, min_aoi_coverage)
+    # full-swath scenes). Skipped for single-day, where edge scenes help tile.
+    if not single_day:
+        scenes = filter_aoi_coverage(scenes, region, min_aoi_coverage)
 
-    # Verify SR download permission. Bound the (per-scene) checks to a pool of
-    # the clearest candidates when a per-month cap is in effect.
-    candidates = scenes if per_month <= 0 else select_scenes(scenes, per_month * 4)
-    sr_ids = sr_downloadable(candidates["id"].tolist(), client=client)
-    sr_scenes = candidates[candidates["id"].isin(sr_ids)]
-    selected = select_scenes(sr_scenes, per_month=per_month)
+    if single_day:
+        # One clear day per year: pick the best-covering day within each year.
+        selected = pd.concat(
+            [
+                select_best_day(scenes[scenes["year"] == yr], region, client=client)
+                for yr in sorted(scenes["year"].unique())
+            ]
+        )
+        print(f"Found {len(scenes)} scenes; single-day selection:")
+    else:
+        # Verify SR download permission. Bound the (per-scene) checks to a pool
+        # of the clearest candidates when a per-month cap is in effect.
+        candidates = scenes if per_month <= 0 else select_scenes(scenes, per_month * 4)
+        sr_ids = sr_downloadable(candidates["id"].tolist(), client=client)
+        sr_scenes = candidates[candidates["id"].isin(sr_ids)]
+        selected = select_scenes(sr_scenes, per_month=per_month)
+        print(
+            f"Found {len(scenes)} scenes; of {len(candidates)} candidates "
+            f"{len(sr_scenes)} have downloadable SR; selected {len(selected)} "
+            f"(top {per_month or 'all'} per month)."
+        )
 
-    cov_note = f", >={min_aoi_coverage}% AOI" if min_aoi_coverage > 0 else ""
-    print(
-        f"Found {len(scenes)} scenes{cov_note}; of {len(candidates)} candidates "
-        f"{len(sr_scenes)} have downloadable SR; selected {len(selected)} "
-        f"(top {per_month or 'all'} per month)."
-    )
     if not selected.empty:
-        counts = selected.groupby("year")["id"].count()
-        for year, n in counts.items():
-            print(f"  {year}: {n} scenes")
+        if single_day:
+            for yr, grp in selected.groupby("year"):
+                day = grp["acquired"].dt.date.iloc[0]
+                print(f"  {yr}: {len(grp)} scenes on {day}")
+        else:
+            for year, n in selected.groupby("year")["id"].count().items():
+                print(f"  {year}: {n} scenes")
         print(
             f"Estimated billed area: {estimate_billed_area(selected, region):,.0f} km²"
         )
@@ -710,6 +737,17 @@ def _search_and_report(
     type=float,
     help="Drop scenes covering less than this %% of the AOI (sliver filter).",
 )
+@click.option(
+    "--months",
+    default=None,
+    help="Restrict to these months, e.g. '6,7,8' for JJA (default: all).",
+)
+@click.option(
+    "--single-day",
+    is_flag=True,
+    default=False,
+    help="Select the single best-covering clear day per year (not a composite).",
+)
 @click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
 @click.option("--filter-val", default=None, help="Value to match in --filter-col.")
 @click.option(
@@ -726,6 +764,8 @@ def ps_search(
     min_clear: float,
     per_month: int,
     min_aoi_coverage: float,
+    months: str | None,
+    single_day: bool,
     filter_col: str | None,
     filter_val: str | None,
     save_footprints: str | None,
@@ -746,6 +786,8 @@ def ps_search(
         per_month,
         get_planet_client(),
         min_aoi_coverage=min_aoi_coverage,
+        months=_parse_months(months),
+        single_day=single_day,
     )
 
     if save_footprints and not selected.empty:
@@ -784,6 +826,17 @@ def ps_search(
     type=float,
     help="Drop scenes covering less than this %% of the AOI (sliver filter).",
 )
+@click.option(
+    "--months",
+    default=None,
+    help="Restrict to these months, e.g. '6,7,8' for JJA (default: all).",
+)
+@click.option(
+    "--single-day",
+    is_flag=True,
+    default=False,
+    help="Select the single best-covering clear day per year (not a composite).",
+)
 @click.option("--filter-col", default=None, help="AOI attribute column to filter on.")
 @click.option("--filter-val", default=None, help="Value to match in --filter-col.")
 @click.option(
@@ -813,6 +866,8 @@ def ps_download(
     min_clear: float,
     per_month: int,
     min_aoi_coverage: float,
+    months: str | None,
+    single_day: bool,
     filter_col: str | None,
     filter_val: str | None,
     harmonize: bool,
@@ -839,6 +894,8 @@ def ps_download(
         per_month,
         client,
         min_aoi_coverage=min_aoi_coverage,
+        months=_parse_months(months),
+        single_day=single_day,
     )
 
     if selected.empty:

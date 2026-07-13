@@ -27,8 +27,11 @@ training**.
   - `scenes.py` — PlanetScope (PSScene) search/selection/ordering via the
     official `planet` SDK v3: Data API search, `sr_downloadable` (drops scenes
     without licensed SR — orders are rejected wholesale otherwise),
-    top-K-clearest-per-month selection (the quota guard), Orders API clipped
-    orders (`analytic_sr_udm2` bundle SR-only, Sentinel-2 harmonization).
+    top-K-clearest-per-month selection (the quota guard), `filter_months` +
+    `select_best_day` (season window + single-clearest-day mosaic, a
+    phenology-controlled low-cost alternative to the median), `filter_aoi_coverage`
+    (sliver filter), Orders API clipped orders (`analytic_sr_udm2` bundle
+    SR-only, Sentinel-2 harmonization).
 - `main/download_and_process.py` — thin shim re-exporting `planet_download.cli`
   (kept so `python main/download_and_process.py ...` invocations keep working).
   Commands:
@@ -42,9 +45,13 @@ training**.
   PlanetScope commands (pipeline: search→download→mask→composite): `ps-search`
   (free dry run: scene counts + billed-km² preview, SR-availability filtered),
   `ps-download` (clipped SR+udm2 Orders API orders per year — **consumes
-  quota**; confirms interactively unless `--yes`), `ps-mask` (writes udm2-masked
-  SR scenes), `ps-composite` (yearly median composites from the masked scenes,
-  4-band B/G/R/NIR uint16 at 3 m in the AOI's UTM zone).
+  quota**; confirms interactively unless `--yes`; reuses on-disk scenes so
+  raising `--per-month` only bills new ones), `ps-mask` (writes udm2-masked SR
+  scenes), `ps-composite` (yearly median composites from the masked scenes,
+  4-band B/G/R/NIR uint16 at 3 m in the AOI's UTM zone; threaded `--nthreads`).
+  Shared selection flags: `--per-month`, `--min-aoi-coverage` (sliver filter),
+  `--months "6,7,8"` (season window), `--single-day` (single clearest-day
+  mosaic instead of a median — ~1/13th the quota, real non-median pixels).
 - `scripts/`
   - `patchify.py` — extract 512×512 RGB patches from the **raw per-quarter**
     quads → uniform shard folders + `manifest.csv` (see below).

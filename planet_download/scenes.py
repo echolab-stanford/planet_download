@@ -203,6 +203,60 @@ def downloaded_scene_ids(save_dir: str | Path) -> set[str]:
     return ids
 
 
+def filter_months(scenes: gpd.GeoDataFrame, months: list[int]) -> gpd.GeoDataFrame:
+    """Keep only scenes acquired in the given months (e.g. [6, 7, 8] for JJA)."""
+    if not months or scenes.empty:
+        return scenes
+    return scenes[scenes["month"].isin(months)]
+
+
+def select_best_day(
+    scenes: gpd.GeoDataFrame, region: dict, client: Planet | None = None
+) -> gpd.GeoDataFrame:
+    """Return the scenes of the single acquisition day that best covers the AOI.
+
+    A phenology-controlled alternative to a temporal median: within an already
+    date-windowed set (e.g. JJA), pick the day whose scenes tile the most of the
+    AOI, breaking ties toward lower cloud cover, and return that day's
+    SR-downloadable scenes. A single day gives real (non-median) pixels from one
+    coherent pass, and since PlanetScope images the AOI daily a clear day usually
+    covers most of it.
+
+    Parameters
+    ----------
+    scenes : gpd.GeoDataFrame
+        Candidate scenes (output of ``search_scenes``, typically month-filtered).
+    region : dict
+        GeoJSON geometry (WGS84) of the AOI.
+    client : Planet, optional
+        SDK client for the SR-availability check; created if not given.
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        The chosen day's SR-downloadable scenes (empty if none).
+    """
+    if scenes.empty:
+        return scenes
+
+    utm = scenes.estimate_utm_crs()
+    aoi_geom = gpd.GeoSeries([shape(region)], crs="EPSG:4326").to_crs(utm).iloc[0]
+    projected = scenes.to_crs(utm)
+    dates = scenes["acquired"].dt.date
+
+    scored = []
+    for day, idx in dates.groupby(dates).groups.items():
+        coverage = projected.loc[idx].union_all().intersection(aoi_geom).area
+        scored.append((day, coverage, scenes.loc[idx, "cloud_cover"].mean()))
+    # Most AOI coverage first, then least cloud.
+    scored.sort(key=lambda s: (-s[1], s[2]))
+    best_day = scored[0][0]
+
+    day_scenes = scenes[dates == best_day]
+    sr_ids = sr_downloadable(day_scenes["id"].tolist(), client=client)
+    return day_scenes[day_scenes["id"].isin(sr_ids)].reset_index(drop=True)
+
+
 def sr_downloadable(scene_ids: list[str], client: Planet | None = None) -> set[str]:
     """Return the subset of scene ids whose SR asset we can download.
 

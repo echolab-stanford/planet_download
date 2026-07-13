@@ -124,6 +124,15 @@ Useful flags for tuning cost, quality, and speed:
 
 - `--per-month N` — scenes kept per month (default 3). Higher N gives a smoother
   median and more diversity, at proportionally more quota.
+- `--months "6,7,8"` — restrict to a season (here JJA). Fixing the season across
+  years holds phenology constant, so cross-year differences reflect real change
+  rather than which season the imagery came from.
+- `--single-day` — instead of a temporal median, select the **single clearest
+  day** per year that best covers the AOI and mosaic just that day's scenes.
+  This yields real (non-median) pixels from one coherent pass and costs roughly
+  1/13th of a composite, at the price of slightly lower coverage (that day may
+  have a stray cloud/gap). Best paired with `--months` to fix the season. Use a
+  composite instead when you need maximum coverage/robustness.
 - `--min-aoi-coverage PCT` — drop scenes whose footprint covers less than `PCT`
   of the AOI (default 0 = keep all). A **sliver filter**: a single PlanetScope
   scene only covers a few percent of a county-sized AOI, so this spends per-month
@@ -132,8 +141,22 @@ Useful flags for tuning cost, quality, and speed:
   coverage/median quality per scene.
 - `ps-download` skips scenes already present under `--save-dir`, so raising
   `--per-month` later only orders (and bills for) the new scenes.
-- `--nthreads N` on `ps-composite` — the composite runs one worker process per
-  output tile group; 8 is a good default on a multi-core box.
+- `--nthreads N` on `ps-composite` — the composite runs one worker thread per
+  output tile; 8 is a good default on a multi-core box.
+
+Example — one cloud-free JJA (summer) mosaic per year, 2019–2024:
+
+```bash
+for Y in 2019 2020 2021 2022 2023 2024; do
+  planet-download ps-download \
+    --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA \
+    --start-year $Y --end-year $Y --months 6,7,8 --single-day \
+    --save-dir data/ps_jja/scenes
+done
+planet-download ps-mask --data-dir data/ps_jja/scenes --output-dir data/ps_jja/masked
+planet-download ps-composite --data-dir data/ps_jja/masked --output-dir data/ps_jja/composite \
+  --geojson kenya.geojson --filter-col COUNTY_NAM --filter-val SIAYA
+```
 
 > **Note on quota:** unlike basemap quads, PSScene downloads consume an
 > area-based quota — every clipped scene bills its intersection with the AOI.
