@@ -140,9 +140,22 @@ Useful flags for tuning cost, quality, and speed:
   (premium billing charges per km², and slivers are already cheap) — it improves
   coverage/median quality per scene.
 - `ps-download` skips scenes already present under `--save-dir`, so raising
-  `--per-month` later only orders (and bills for) the new scenes.
+  `--per-month` later only orders (and bills for) the new scenes. **Caveat:**
+  `--single-day` and the per-month composite select *different* scenes
+  (best-*coverage* day vs the *clearest* K per month), so they barely overlap —
+  building both into one `--save-dir` reuses only a handful of scenes and you
+  pay for each product nearly in full. Don't expect the single-day download to
+  subsidize a later composite.
 - `--nthreads N` on `ps-composite` — the composite runs one worker thread per
   output tile; 8 is a good default on a multi-core box.
+
+> **Storage:** these datasets are large — roughly **30–60 GB per year** of raw
+> scenes plus a similar amount of masked intermediates (a full county × several
+> years easily exceeds 100 GB). Point `--save-dir`/`--output-dir` at a volume
+> with room, not your system disk. `masked/` is derived from `scenes/` (rerun
+> `ps-mask` to regenerate for free), so it's the safe thing to delete first when
+> reclaiming space; `scenes/` is the paid download and the composites are the
+> deliverables.
 
 Example — one cloud-free JJA (summer) mosaic per year, 2019–2024:
 
