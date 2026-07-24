@@ -205,3 +205,16 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- planet_download: data outputs & generated artifacts ---
+# Large rasters (downloaded/processed scenes & composites — what bloats the repo)
+*.tif
+*.tiff
+# Downloaded/processed PSScene & composite output dirs, symlinks, and run logs
+data/ps_*
+data/*_resume.log
+# Generated figures & heavy example artifacts (regenerate from the notebooks)
+examples/*.png
+examples/*.geojson
+examples/*.gpkg
+examples/siaya_grid_survey_data/
