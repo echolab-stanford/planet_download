@@ -40,7 +40,6 @@ load_dotenv(find_dotenv(usecwd=True))
 @click.group()
 def cli():
     """Planet Download CLI - basemap quads, PlanetScope scenes, and composites."""
-    pass
 
 
 @cli.command(
@@ -202,7 +201,9 @@ def download(
         for year in labels_aoi["year"].unique():
             print(f"Processing year: {year}")
             start_date = f"{year}-01-01"
-            end_date = f"{year}-12-31"
+            # Jan 1 next year, not Dec 31, so the final period (Dec / Q4, whose
+            # last_acquired is Jan 1) isn't dropped. See _download_aoi.
+            end_date = f"{year + 1}-01-01"
 
             # Get labels for this specific year
             year_labels = labels_aoi[labels_aoi["year"] == year]
@@ -364,7 +365,12 @@ def _download_aoi(
 
     for year in range(start_year, end_year + 1):
         start_date = f"{year}-01-01"
-        end_date = f"{year}-12-31"
+        # End at Jan 1 of the next year, not Dec 31: the mosaics filter is on
+        # last_acquired, and the final period of a year (December for monthly,
+        # Q4 for quarterly) has last_acquired = Jan 1 of the next year, so a
+        # Dec-31 bound silently drops it. Jan 1 includes it without pulling in
+        # the next year's first period.
+        end_date = f"{year + 1}-01-01"
         print(f"Fetching quads overlapping the AOI for {year}...")
 
         quads, _ = series.all_quads_overlap(
